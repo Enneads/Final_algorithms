@@ -21,9 +21,13 @@ public class ReadFile {
         BufferedReader textReader = new BufferedReader(fr);
         int numberOfLines = this.readLines();
         String[] textData = new String[numberOfLines];
+        String emp = "";
 
         for(int i = 0; i < numberOfLines; ++i) {
-            textData[i] = textReader.readLine();
+            String newLine = textReader.readLine();
+            if (!newLine.isEmpty() && newLine != null){
+                textData[i] = newLine;
+            }
         }
 
         textReader.close();
@@ -44,9 +48,17 @@ public class ReadFile {
     }
 
     public static void main(String[] args) throws IOException {
-        String file_name = "/home/mike/Desktop/gettysburg.txt";
+        String file_name = "/Users/linshiyu/Desktop/gettysburg.txt";
         ReadFile file = new ReadFile(file_name);
         String[] gettysburg = file.OpenFile();
+        System.out.println(gettysburg[0]);
+        System.out.println(gettysburg[0].getClass().getName());
         System.out.println(gettysburg[1]);
+        System.out.println(gettysburg[1].getClass().getName());
+        System.out.println(gettysburg[2]);
+        System.out.println(gettysburg[2].getClass().getName());
+        System.out.println(gettysburg[3]);
+        System.out.println(gettysburg[3].getClass().getName());
+
     }
 }
