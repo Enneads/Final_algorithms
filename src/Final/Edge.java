@@ -21,6 +21,7 @@ public class Edge {
     public Edge(Vertex source, Vertex target) {
         this.source = source;
         this.target = target;
+        edge = new HashSet<Vertex>();
         this.edge.add(source);
         this.edge.add(target);
         this.weight = 1D;
@@ -36,6 +37,7 @@ public class Edge {
     public Edge(Vertex source, Vertex target, double weight) {
         this.source = source;
         this.target = target;
+        edge = new HashSet<Vertex>();
         this.edge.add(source);
         this.edge.add(target);
         this.weight = weight;
@@ -55,6 +57,7 @@ public class Edge {
         // makes these vertices into an edge
         this.source = s;
         this.target = t;
+        edge = new HashSet<Vertex>();
         this.edge.add(s);
         this.edge.add(t);
         this.weight = 1D;
