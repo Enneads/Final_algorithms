@@ -41,6 +41,25 @@ public class Edge {
         this.weight = weight;
     }
 
+    /**
+     * Overloeded constructor that initializes an edge between two vertices with names source and target with weight 1
+     *
+     * @param source the name of the source of an edge
+     * @param target the name of the destination of an edge
+     */
+    public Edge(String source, String target) {
+        // creates two new vertices with keys source and target
+        Vertex s = new Vertex(source);
+        Vertex t = new Vertex(target);
+
+        // makes these vertices into an edge
+        this.source = s;
+        this.target = t;
+        this.edge.add(s);
+        this.edge.add(t);
+        this.weight = 1D;
+    }
+
     public Vertex getSource() {
         return source;
     }
