@@ -56,7 +56,7 @@ public class TextNetwork {
 
             for (String i : wordList) {
                 for (String j : wordList) {
-
+                    wGraph.addEdge(i, j);
                 }
             }
         }
