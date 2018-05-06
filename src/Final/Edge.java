@@ -77,11 +77,7 @@ public class Edge {
         this.source = source;
     }
 
-    public Vertex getDestination() {
-        return target;
-    }
-
-    public void setDestination(Vertex target) {
+    public void setTarget(Vertex target) {
         this.target = target;
     }
 
