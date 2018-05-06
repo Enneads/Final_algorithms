@@ -199,7 +199,7 @@ public class WeightedGraph {
         String str = "WeightedGraph{";
         Set<Vertex> keys = graphMap.keySet();
         for (Vertex v : keys) {
-            str = str.concat("NAME: " + v.getKey() + " connected to:");
+            str = str.concat("\nNAME: " + v.getKey() + " connected to:");
             LinkedList<Edge> edges = graphMap.get(v);
             for (Edge e : edges) {
                 str = str.concat(e.getTarget().toString() + " (" + e.getWeight() + "), ");
