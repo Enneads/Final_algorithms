@@ -35,8 +35,9 @@ public class WeightedGraph {
 
     public Boolean inGraph(String key){
         for (String name:names){
-            if(key.equals(name)){
+            if(key.equals(name)) {
                 return true;
+            }
         }
             return false;
     }
