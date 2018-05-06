@@ -30,7 +30,7 @@ public class TextNetwork {
 
     public void makeNetwork(String fileName) throws IOException {
         ReadFile file = new ReadFile(fileName);
-        String[] text =  file.OpenFile(); // fix how this exception is handled
+        String[] text =  file.OpenFile();
 
         for (String line : text) {
             String[] words = cutString(line);
@@ -42,6 +42,22 @@ public class TextNetwork {
                     else {
                         graph.addEdge(new Vertex(word), new Vertex(oWord));
                     }
+            }
+        }
+    }
+
+    public void makeGraph(String fileName) throws IOException {
+        WeightedGraph wGraph = new WeightedGraph(); // fix the constructor in weightedgraph
+        ReadFile file = new ReadFile(fileName);
+        String[] text = file.OpenFile();
+
+        for (String line : text) {
+            String[] wordList = cutString(line);
+
+            for (String i : wordList) {
+                for (String j : wordList) {
+
+                }
             }
         }
     }
