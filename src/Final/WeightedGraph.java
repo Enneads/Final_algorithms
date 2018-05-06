@@ -30,6 +30,7 @@ public class WeightedGraph {
         if (graphMap.containsKey(v)){
             return true;
         }
+        return false;
     }
 
     public Boolean inGraph(String key){
