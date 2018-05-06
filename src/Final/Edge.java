@@ -1,11 +1,19 @@
-//
-// Source code recreated from a .class file by IntelliJ IDEA
-// (powered by Fernflower decompiler)
-//
-
 package Final;
 import java.util.*;
 
+/**
+ *  The {@code Edge} class represents an undirected edge between two vertices
+ *  <em>source</em> and <em>target</em>, where each edge has a real-valued weight.
+ *  It supports the following primary operation: create an edge. It also provides
+ *  methods for getting or setting the end vertices <em>source</em> and <em>target</em>
+ *  and the weight of the edge, as well as checking if two edges are equal.
+ *  <p>
+ *  All operations take constant time (in the worst case).
+ *
+ *  @author Logan Stapleton
+ *  @author Abigail Poole
+ *  @author Shiyu Lin
+ */
 public class Edge {
     private Vertex source;
     private Vertex target;
@@ -111,6 +119,6 @@ public class Edge {
 
     @Override
     public String toString() {
-        return source.getKey() + " to " + target.getKey();
+        return source.getKey() + " to " + target.getKey() + " with weight " + weight;
     }
 }

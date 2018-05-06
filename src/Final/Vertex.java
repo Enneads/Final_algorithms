@@ -91,10 +91,10 @@ public class Vertex {
     /**
      * Returns a string representation of the vertex.
      *
-     * @return the name of the vertex
+     * @return the name of the vertex and the weight
      */
     @Override
     public String toString() {
-        return key;
+        return key + " with node-weight " + weight;
     }
 }
