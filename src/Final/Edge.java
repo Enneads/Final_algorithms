@@ -6,37 +6,82 @@
 package Final;
 
 public class Edge {
-    private Node vA;
-    private Node vB;
+    private Vertex source;
+    private Vertex target;
     private double weight;
 
-    public Edge(Node vA, Node vB) {
-        this.vA = vA;
-        this.vB = vB;
-        this.weight = 1.0D;
+    /**
+     * Initializes an edge between the vertices source and destination
+     *
+     * @param source the source of an edge
+     * @param target the destination of an edge
+     */
+    public Edge(Vertex source, Vertex target) {
+        this.source = source;
+        this.target = target;
+        this.weight = 1D;
     }
 
-    public Node getvA() {
-        return this.vA;
+    /**
+     * Initializes an edge between the vertices source and destination
+     *
+     * @param source the source of an edge
+     * @param target the destination of an edge
+     * @param weight the weight of an edge
+     */
+    public Edge(Vertex source, Vertex target, double weight) {
+        this.source = source;
+        this.target = target;
+        this.weight = weight;
     }
 
-    public void setvA(Node vA) {
-        this.vA = vA;
+    public Vertex getSource() {
+        return source;
     }
 
-    public Node getvB() {
-        return this.vB;
+    public Vertex getTarget() {
+        return target;
     }
 
-    public void setvB(Node vB) {
-        this.vB = vB;
+    public void setSource(Vertex source) {
+        this.source = source;
+    }
+
+    public Vertex getDestination() {
+        return target;
+    }
+
+    public void setDestination(Vertex target) {
+        this.target = target;
     }
 
     public double getWeight() {
-        return this.weight;
+        return weight;
     }
 
     public void setWeight(double weight) {
         this.weight = weight;
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj)
+            return true;
+        if (obj == null)
+            return false;
+        if (getClass() != obj.getClass())
+            return false;
+
+        Edge other = (Edge) obj;
+        if ((this.source.equals(other.source) && this.target.equals(other.target)) || (this.source.equals(other.target) && this.target.equals(other.source))){
+            return true;
+        }
+
+        return false;
+    }
+
+    @Override
+    public String toString() {
+        return source.getKey() + " to " + target.getKey();
     }
 }

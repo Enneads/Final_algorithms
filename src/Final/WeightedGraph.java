@@ -6,34 +6,50 @@
 package Final;
 
 import java.io.IOException;
-import java.util.Iterator;
-import java.util.LinkedList;
-import java.util.Map;
+import java.util.*;
 
 public class WeightedGraph {
-    private Map<String, LinkedList<Edge>> graphMap;
-    private LinkedList<String> nodeName;
+    private Map<Vertex, LinkedList<Edge>> graphMap;
+    private LinkedList<String> names;
 
-    public WeightedGraph(Map<String, LinkedList<Edge>> graphMap) {
+    public WeightedGraph(Map<Vertex, LinkedList<Edge>> graphMap) {
         this.graphMap = graphMap;
-        nodeName = new LinkedList<String>();
+
+        this.names = new LinkedList<String>();
+        Set<Vertex> vertices = graphMap.keySet();
+        for (Vertex v:vertices) {
+            this.names.add(v.getKey());
+        }
     }
 
-    public Map<String, LinkedList<Edge>> getGraphMap() {
+    public Map<Vertex, LinkedList<Edge>> getGraphMap() {
         return this.graphMap;
     }
 
-    public void addEdge(Node w1, Node w2) {
-        LinkedList<Edge> edgeList = (LinkedList)this.graphMap.get(w1.getWord());
+    public Boolean inGraph(Vertex v){
+        if (graphMap.containsKey(v)){
+            return true;
+        }
+    }
+
+    public Boolean inGraph(Vertex v){
+        if (graphMap.containsKey(v)){
+            return true;
+        }
+    }
+
+
+    public void addEdge(Vertex source, Vertex target) {
+        LinkedList<Edge> edgeList = (LinkedList)this.graphMap.get(source.getKey());
         boolean found = false;
         Iterator var6 = edgeList.iterator();
 
-        if(!nodeName.contains(w1.getWord())){
-            nodeName.add(w1.getWord());
+        if(!names.contains(source.getKey())){
+            names.add(source.getKey());
         }
 
-        if(!nodeName.contains(w2.getWord())){
-            nodeName.add(w2.getWord());
+        if(!names.contains(target.getKey())){
+            names.add(target.getKey());
         }
 
         while(true) {
@@ -41,7 +57,7 @@ public class WeightedGraph {
             do {
                 if (!var6.hasNext()) {
                     if (!found) {
-                        edge = new Edge(w1, w2);
+                        edge = new Edge(source, target);
                         edgeList.add(edge);
                     }
 
@@ -49,15 +65,15 @@ public class WeightedGraph {
                 }
 
                 edge = (Edge)var6.next();
-            } while(!edge.getvA().getWord().equals(w2.getWord()) && !edge.getvB().getWord().equals(w2.getWord()));
+            } while(!edge.getSource().getKey().equals(target.getKey()) && !edge.getTarget().getKey().equals(target.getKey()));
 
-            edge.setWeight(edge.getWeight() + 1.0D);
+            edge.setWeight(edge.getWeight() + 1D);
             found = true;
         }
     }
 
-    public LinkedList<String> getNodeName(){
-        return this.nodeName;
+    public LinkedList<String> getNames(){
+        return this.names;
     }
 
 

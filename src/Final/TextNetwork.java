@@ -10,18 +10,17 @@ import java.util.*;
 import java.io.BufferedReader;
 import java.io.FileReader;
 
-public class NetworkProg {
+public class TextNetwork {
     private Map map = new HashMap();
     WeightedGraph graph;
 
-    public NetworkProg() {
+    public TextNetwork() {
         this.graph = new WeightedGraph(this.map);
     }
 
     public void makeNetwork(String fileName) throws IOException {
         ReadFile file = new ReadFile(fileName);
         String[] text =  file.OpenFile(); // fix how this exception is handled
-
 
         for (String line : text) {
             String[] words = cutString(line);
@@ -34,12 +33,8 @@ public class NetworkProg {
                         graph.addEdge(new Node(word), new Node(oWord));
                     }
             }
-
-
         }
-
     }
-
 
     private String[] cutString(String line){
 
@@ -48,8 +43,8 @@ public class NetworkProg {
     }
 
     public static void main(String[] args) throws IOException {
-        String file_name = "/Users/linshiyu/Desktop/gettysburg.txt";
-        NetworkProg newNet = new NetworkProg();
+        String file_name = "/Users/lstaplet/Desktop/gettysburg.txt";
+        TextNetwork newNet = new TextNetwork();
         newNet.makeNetwork(file_name);
         System.out.print(newNet);
     }

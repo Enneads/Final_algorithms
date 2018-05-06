@@ -6,30 +6,47 @@
 package Final;
 
 import java.util.LinkedList;
+import java.util.Iterator;
 
 public class Node {
-    private String word;
+    private String key;
     private double weight;
-    private LinkedList<Edge> edges;
+    private LinkedList<Edge> adj;
 
-    public Node(String word) {
-        this.word = word;
+    /**
+     * Initializes a Node with label (key), weight, and list of adjacent edges.
+     *
+     * @param key
+     * @param weight
+     * @param adj
+     */
+    public Node(String key, double weight, LinkedList<Edge> adj) {
+        this.key = key;
+        this.weight = weight;
+        this.adj = adj;
     }
 
-    public String getWord() {
-        return this.word;
+    public String getKey() {
+        return this.key;
     }
 
-    public void setWord(String word) {
-        this.word = word;
+    public void setKey(String key) {
+        this.key = key;
     }
 
     public LinkedList<Edge> getEdges() {
-        return this.edges;
+        return this.adj;
     }
 
     public void setEdges(LinkedList<Edge> edges) {
-        this.edges = edges;
+        this.adj = edges;
+    }
+
+    public void addEdges(LinkedList<Edge> edges){
+        Iterator<Edge> iter1 = adj.iterator();
+        Iterator<Edge> iter2 = edges.iterator();
+
+
     }
 
     public double getWeight() {
@@ -40,3 +57,7 @@ public class Node {
         this.weight = weight;
     }
 }
+
+// textfiles into line-by-line strings
+// line-by-line strings : filter trivial words
+// line-by-line strings : call the function
