@@ -4,6 +4,11 @@ public class Vertex {
     private String key;
     private double weight;
 
+    /**
+     * This class creates the vertexes in the graph.
+     * @param key
+     * @param weight
+     */
 
     public Vertex(String key, double weight) {
         this.key = key;
@@ -28,6 +33,9 @@ public class Vertex {
     }
 
     @Override
+    /**
+     * This method overrides equals. It checks if two Vertexes are the same and returns a boolean.
+     */
     public boolean equals(Object obj) {
         if (this == obj)
             return true;
