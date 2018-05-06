@@ -11,9 +11,11 @@ import java.util.Map;
 
 public class WeightedGraph {
     private Map<String, LinkedList<Edge>> graphMap;
+    private LinkedList<String> nodeName;
 
     public WeightedGraph(Map<String, LinkedList<Edge>> graphMap) {
         this.graphMap = graphMap;
+        nodeName = new LinkedList<String>();
     }
 
     public Map<String, LinkedList<Edge>> getGraphMap() {
@@ -24,6 +26,14 @@ public class WeightedGraph {
         LinkedList<Edge> edgeList = (LinkedList)this.graphMap.get(w1.getWord());
         boolean found = false;
         Iterator var6 = edgeList.iterator();
+
+        if(!nodeName.contains(w1.getWord())){
+            nodeName.add(w1.getWord());
+        }
+
+        if(!nodeName.contains(w2.getWord())){
+            nodeName.add(w2.getWord());
+        }
 
         while(true) {
             Edge edge;
@@ -43,5 +53,9 @@ public class WeightedGraph {
             edge.setWeight(edge.getWeight() + 1.0D);
             found = true;
         }
+    }
+
+    public LinkedList<String> getNodeName(){
+        return this.nodeName;
     }
 }

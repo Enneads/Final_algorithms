@@ -5,39 +5,49 @@
 
 package Final;
 
-import java.util.Arrays;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.io.IOException;
+import java.util.*;
+import java.io.BufferedReader;
+import java.io.FileReader;
 
 public class NetworkProg {
     private Map map = new HashMap();
     WeightedGraph graph;
 
-    public NetworkProg() {
-        this.graph = new WeightedGraph(this.map);
-    }
+//    public NetworkProg() {
+//        this.graph = new WeightedGraph(this.map);
+//    }
+
+    public void makeNetwork(String fileName){
+        ReadFile file = new ReadFile(fileName);
+        String[] text =  file.OpenFile(); // fix how this exception is handled
 
 
-    public Map<String, Integer> makeNetwork(){
+        for (String line : text) {
+            String[] words = cutString(line);
+            for (String word : words) {
+                for (String oWord : words)
+                    if (word.equals(oWord)) {
+                        continue; // it's telling me to get rid of this, but i want it to skip so that it doesn't compare a word to itself
+                    }
+                    else {
+                        graph.addEdge(new Node(word), new Node(oWord));
+                    }
+            }
 
+
+        }
 
     }
 
 
     private String[] cutString(String line){
-//        String[] alphabet = {"a","b","c","d","e","f","g","h","i","j","k","l","m","n","o","p","q","r","s","t","u","v","w","x","y","z",
-//                "A","B","C","D","E","F","G","H","I","J","K","L","M","N","O","P","Q","R","S","T","U","V","W","X","Y","Z"};
-//        String sub = "";
-//        for (int i = 0; i<line.length(); i++){
-//            char ch = line.charAt(i);
-//            if(!Arrays.asList(alphabet).contains( Character.toString(ch) )){
-//                if (!sub.isEmpty()){
-//
-//                }
-//            }
-//        }
-        String[] cuttedLine = line.split("\\W+");
-        return cuttedLine;
+
+//        String[] cuttedLine = line.split("\\W+");
+        return line.split("\\W+");
     }
 }
+
+
+
+// THERE'S NO WAY TO KNOW WHICH NODES ARE IN THE GRAPH (maybe add a graph object)
