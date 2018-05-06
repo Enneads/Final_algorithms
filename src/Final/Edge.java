@@ -36,7 +36,7 @@ public class Edge {
     }
 
     /**
-     * Overloeded constructor that initializes an edge between the vertices source and destination with specified weight
+     * Overloaded constructor that initializes an edge between the vertices source and destination with specified weight
      *
      * @param source the source of an edge
      * @param target the destination of an edge
@@ -52,7 +52,7 @@ public class Edge {
     }
 
     /**
-     * Overloeded constructor that initializes an edge between two vertices with names source and target with weight 1
+     * Overloaded constructor that initializes an edge between two vertices with names source and target with weight 1
      *
      * @param source the name of the source of an edge
      * @param target the name of the destination of an edge
@@ -71,28 +71,58 @@ public class Edge {
         this.weight = 1D;
     }
 
+    /**
+     * Returns the {@code source} Vertex (one of the ends).
+     *
+     * @return the {@code source} Vertex
+     */
     public Vertex getSource() {
         return source;
     }
 
+    /**
+     * Returns the {@code target} Vertex (one of the ends).
+     *
+     * @return the {@code target} Vertex
+     */
     public Vertex getTarget() {
         return target;
     }
 
+    /**
+     * Returns the {@code edge}.
+     *
+     * @return the {@code edge}
+     */
     public Set<Vertex> getEdge() { return edge; }
 
     public void setSource(Vertex source) {
         this.source = source;
     }
 
+    /**
+     * Sets the target of edge {@code e}.
+     *
+     * @param target the target vertex
+     */
     public void setTarget(Vertex target) {
         this.target = target;
     }
 
+    /**
+     * Returns the {@code target} Vertex (one of the ends).
+     *
+     * @return the {@code target} Vertex
+     */
     public double getWeight() {
         return weight;
     }
 
+    /**
+     * Sets the weight of vertex {@code v}.
+     *
+     * @param edge the weight of vertex {@code v}
+     */
     public void setWeight(double weight) {
         this.weight = weight;
     }

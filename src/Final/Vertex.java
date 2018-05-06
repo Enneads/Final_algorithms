@@ -88,12 +88,12 @@ public class Vertex {
         return true;
     }
 
+    @Override
     /**
      * Returns a string representation of the vertex.
      *
      * @return the name of the vertex and the weight
      */
-    @Override
     public String toString() {
         return key + " with node-weight " + weight;
     }
