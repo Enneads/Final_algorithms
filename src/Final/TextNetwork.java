@@ -32,27 +32,32 @@ public class TextNetwork {
      * @throws IOException
      */
 
-    public void makeNetwork(String fileName) throws IOException {
-        ReadFile file = new ReadFile(fileName);
-        String[] text =  file.OpenFile();
+//    public void makeNetwork(String fileName) throws IOException {
+//        ReadFile file = new ReadFile(fileName);
+//        String[] text =  file.OpenFile();
+//
+//        for (String line : text) {
+//            String[] words = cutString(line);
+//            for (String word : words) {
+//                for (String oWord : words)
+//                    if (word.equals(oWord)) {
+//                        continue; // it's telling me to get rid of this, but i want it to skip so that it doesn't compare a word to itself
+//                    }
+//                    else {
+//                        graph.addEdge(new Vertex(word), new Vertex(oWord));
+//                    }
+//            }
+//        }
+//    }
 
-        for (String line : text) {
-            String[] words = cutString(line);
-            for (String word : words) {
-                for (String oWord : words)
-                    if (word.equals(oWord)) {
-                        continue; // it's telling me to get rid of this, but i want it to skip so that it doesn't compare a word to itself
-                    }
-                    else {
-                        graph.addEdge(new Vertex(word), new Vertex(oWord));
-                    }
-            }
-        }
-    }
 
-    public void makeGraph(String fileName) throws IOException {
-        Map<Vertex, LinkedList<Edge>> mapp = new HashMap<>();
-        WeightedGraph wGraph = new WeightedGraph(mapp);
+    public WeightedGraph getGraph() {
+        return graph;
+    }public void setGraph(WeightedGraph graph) {
+        this.graph = graph;
+    }public void makeGraph(String fileName) throws IOException {
+//        Map<Vertex, LinkedList<Edge>> mapp = new HashMap<>();
+//        WeightedGraph wGraph = new WeightedGraph(mapp);
         ReadFile file = new ReadFile(fileName);
         String[] text = file.OpenFile();
 
@@ -61,7 +66,8 @@ public class TextNetwork {
 
             for (String i : wordList) {
                 for (String j : wordList) {
-                    wGraph.addEdge(i, j);
+                    Edge e = new Edge(i, j);
+                    graph.addEdge(e);
                 }
             }
         }
@@ -88,8 +94,9 @@ public class TextNetwork {
     public static void main(String[] args) throws IOException {
         String file_name = "/Users/apoole/Desktop/gettysburg.txt";
         TextNetwork newNet = new TextNetwork();
-        newNet.makeNetwork(file_name);
-        System.out.print(newNet);
+        newNet.makeGraph(file_name);
+//        System.out.print(newNet);
+        System.out.print(newNet.getGraph().toString());
     }
 
 
