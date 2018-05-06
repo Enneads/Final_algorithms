@@ -14,9 +14,19 @@ public class TextNetwork {
     private Map map = new HashMap();
     WeightedGraph graph;
 
+    /**
+     * This class reads the text by line and makes a graph by creating an edge between two words in the same line.
+     */
+
     public TextNetwork() {
         this.graph = new WeightedGraph(this.map);
     }
+
+    /**
+     * This method makes a the network by taking a file name.
+     * @param fileName
+     * @throws IOException
+     */
 
     public void makeNetwork(String fileName) throws IOException {
         ReadFile file = new ReadFile(fileName);
@@ -30,17 +40,23 @@ public class TextNetwork {
                         continue; // it's telling me to get rid of this, but i want it to skip so that it doesn't compare a word to itself
                     }
                     else {
-                        graph.addEdge(new Node(word), new Node(oWord));
+                        graph.addEdge(new Vertex(word), new Vertex(oWord));
                     }
             }
         }
     }
 
+    /**
+     * This method cuts a line into words.
+     * @param line
+     * @return
+     */
     private String[] cutString(String line){
 
 //        String[] cuttedLine = line.split("\\W+");
         return line.split("\\W+");
     }
+
 
     public static void main(String[] args) throws IOException {
         String file_name = "/Users/lstaplet/Desktop/gettysburg.txt";
