@@ -59,6 +59,7 @@ public class WeightedGraph {
                 graphMap.put(e.getSource(), edges);
 //            graphMap.get(e.getSource()).add(e);
             }
+
             // makes target vertex if none exists
             if (!inGraph(e.getTarget().getKey())) {
                 names.add(e.getTarget().getKey());
@@ -68,6 +69,7 @@ public class WeightedGraph {
 //            graphMap.get(e.getTarget()).add(e);
             }
         }
+
         // increments edge weight by 1 if edge exists
         else {
             if (inGraph(e)) {
@@ -84,6 +86,62 @@ public class WeightedGraph {
                 graphMap.put(e.getTarget(), tEdges);
             }
         }
+
+
+
+    }
+
+
+    private boolean checkVer(String s) {
+        if (names.contains(s)) {
+            return false;
+        }
+        else {
+            return true;
+        }
+
+    }
+
+
+    public void addEdge(String s1, String s2){
+        if (s1.equals(s2)){
+            return;
+        }
+        else {
+            if (checkVer(s1)){
+                if (checkVer(s2)){
+                    //When both Vertexes are not in the graph.
+                    Edge newEdge = new Edge(s1,s2);
+                    LinkedList<Edge> vList = new LinkedList<Edge>();
+                    vList.add(newEdge);
+                    Vertex v1 = new Vertex(s1);
+                    Vertex v2 = new Vertex(s2);
+                    graphMap.put(v1, vList);
+                    graphMap.put(v2, vList);
+                    names.add(s1);
+                    names.add(s2);
+
+                }
+                else {
+                    //s1 is not in the graph. s2 is.
+                    Edge newEdge = new Edge(s1,s2);
+                    LinkedList<Edge> vList = new LinkedList<Edge>();
+                    vList.add(newEdge);
+                    Vertex v1 = new Vertex(s1);
+                    graphMap.put(v1, vList);
+                    names.add(s1);
+                    Vertex ver = null;
+                    Set<Vertex> keys = graphMap.keySet();
+                    for (Vertex v : keys) {
+                        if (v.getKey().equals(s2)) {
+                            ver = v;
+                        }
+                        graphMap.get(ver);
+                    }
+                }
+            }
+        }
+    }
 //        if (!this.inGraph(e)){ // edge is not in graph
 //            // if neither ends are in the graph
 //            if ()
