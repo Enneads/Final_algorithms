@@ -94,6 +94,9 @@ public class Edge {
     }
 
     @Override
+    /**
+     * This method overrides equals. It checks if two edges are the same and returns a boolean.
+     */
     public boolean equals(Object obj) {
         if (this == obj)
             return true;
