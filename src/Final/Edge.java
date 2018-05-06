@@ -9,11 +9,11 @@ import java.util.*;
 public class Edge {
     private Vertex source;
     private Vertex target;
-    private Set<Vertex> edge;
+    private HashSet<Vertex> edge;
     private double weight;
 
     /**
-     * Initializes an edge between the vertices source and destination
+     * Constructor initializes an edge between the vertices source and destination with weight 1
      *
      * @param source the source of an edge
      * @param target the destination of an edge
@@ -21,12 +21,13 @@ public class Edge {
     public Edge(Vertex source, Vertex target) {
         this.source = source;
         this.target = target;
-        this.edge = new HashSet<Edge>(source, target);
+        this.edge.add(source);
+        this.edge.add(target);
         this.weight = 1D;
     }
 
     /**
-     * Initializes an edge between the vertices source and destination
+     * Overloeded constructor that initializes an edge between the vertices source and destination with specified weight
      *
      * @param source the source of an edge
      * @param target the destination of an edge
@@ -35,6 +36,8 @@ public class Edge {
     public Edge(Vertex source, Vertex target, double weight) {
         this.source = source;
         this.target = target;
+        this.edge.add(source);
+        this.edge.add(target);
         this.weight = weight;
     }
 
@@ -45,6 +48,8 @@ public class Edge {
     public Vertex getTarget() {
         return target;
     }
+
+    public Set<Vertex> getEdge() { return edge; }
 
     public void setSource(Vertex source) {
         this.source = source;
@@ -76,7 +81,7 @@ public class Edge {
             return false;
 
         Edge other = (Edge) obj;
-        if ((this.source.equals(other.source) && this.target.equals(other.target)) || (this.source.equals(other.target) && this.target.equals(other.source))){
+        if (edge.equals(obj)){
             return true;
         }
 
