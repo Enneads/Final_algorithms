@@ -1,11 +1,19 @@
-//
-// Source code recreated from a .class file by IntelliJ IDEA
-// (powered by Fernflower decompiler)
-//
-
 package Final;
 import java.util.*;
 
+/**
+ *  The {@code Edge} class represents an undirected edge between two vertices
+ *  <em>source</em> and <em>target</em>, where each edge has a real-valued weight.
+ *  It supports the following primary operation: create an edge. It also provides
+ *  methods for getting or setting the end vertices <em>source</em> and <em>target</em>
+ *  and the weight of the edge, as well as checking if two edges are equal.
+ *  <p>
+ *  All operations take constant time (in the worst case).
+ *
+ *  @author Logan Stapleton
+ *  @author Abigail Poole
+ *  @author Shiyu Lin
+ */
 public class Edge {
     private Vertex source;
     private Vertex target;
@@ -28,7 +36,7 @@ public class Edge {
     }
 
     /**
-     * Overloeded constructor that initializes an edge between the vertices source and destination with specified weight
+     * Overloaded constructor that initializes an edge between the vertices source and destination with specified weight
      *
      * @param source the source of an edge
      * @param target the destination of an edge
@@ -44,7 +52,7 @@ public class Edge {
     }
 
     /**
-     * Overloeded constructor that initializes an edge between two vertices with names source and target with weight 1
+     * Overloaded constructor that initializes an edge between two vertices with names source and target with weight 1
      *
      * @param source the name of the source of an edge
      * @param target the name of the destination of an edge
@@ -63,28 +71,58 @@ public class Edge {
         this.weight = 1D;
     }
 
+    /**
+     * Returns the {@code source} Vertex (one of the ends).
+     *
+     * @return the {@code source} Vertex
+     */
     public Vertex getSource() {
         return source;
     }
 
+    /**
+     * Returns the {@code target} Vertex (one of the ends).
+     *
+     * @return the {@code target} Vertex
+     */
     public Vertex getTarget() {
         return target;
     }
 
+    /**
+     * Returns the {@code edge}.
+     *
+     * @return the {@code edge}
+     */
     public Set<Vertex> getEdge() { return edge; }
 
     public void setSource(Vertex source) {
         this.source = source;
     }
 
+    /**
+     * Sets the target of edge {@code e}.
+     *
+     * @param target the target vertex
+     */
     public void setTarget(Vertex target) {
         this.target = target;
     }
 
+    /**
+     * Returns the {@code target} Vertex (one of the ends).
+     *
+     * @return the {@code target} Vertex
+     */
     public double getWeight() {
         return weight;
     }
 
+    /**
+     * Sets the weight of vertex {@code v}.
+     *
+     * @param edge the weight of vertex {@code v}
+     */
     public void setWeight(double weight) {
         this.weight = weight;
     }
@@ -111,6 +149,6 @@ public class Edge {
 
     @Override
     public String toString() {
-        return source.getKey() + " to " + target.getKey();
+        return source.getKey() + " to " + target.getKey() + " with weight " + weight;
     }
 }

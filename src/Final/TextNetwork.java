@@ -19,7 +19,11 @@ public class TextNetwork {
      */
 
     public TextNetwork() {
-        this.graph = new WeightedGraph(this.map);
+        this.graph = new WeightedGraph(new HashMap<Vertex, LinkedList<Edge>>());
+    }
+
+    public TextNetwork(WeightedGraph graph) {
+        this.graph = graph;
     }
 
     /**
@@ -30,7 +34,7 @@ public class TextNetwork {
 
     public void makeNetwork(String fileName) throws IOException {
         ReadFile file = new ReadFile(fileName);
-        String[] text =  file.OpenFile(); // fix how this exception is handled
+        String[] text =  file.OpenFile();
 
         for (String line : text) {
             String[] words = cutString(line);
@@ -46,6 +50,23 @@ public class TextNetwork {
         }
     }
 
+    public void makeGraph(String fileName) throws IOException {
+        Map<Vertex, LinkedList<Edge>> mapp = new HashMap<>();
+        WeightedGraph wGraph = new WeightedGraph(mapp);
+        ReadFile file = new ReadFile(fileName);
+        String[] text = file.OpenFile();
+
+        for (String line : text) {
+            String[] wordList = cutString(line);
+
+            for (String i : wordList) {
+                for (String j : wordList) {
+                    wGraph.addEdge(i, j);
+                }
+            }
+        }
+    }
+
     /**
      * This method cuts a line into words.
      * @param line
@@ -57,9 +78,15 @@ public class TextNetwork {
         return line.split("\\W+");
     }
 
+//    public void SpreadingActivation(int iterTime, String active){
+//        int degree = 0;
+//        double sum = 0;
+//        for (v: )
+//    }
+
 
     public static void main(String[] args) throws IOException {
-        String file_name = "/Users/lstaplet/Desktop/gettysburg.txt";
+        String file_name = "/Users/apoole/Desktop/gettysburg.txt";
         TextNetwork newNet = new TextNetwork();
         newNet.makeNetwork(file_name);
         System.out.print(newNet);
@@ -68,7 +95,3 @@ public class TextNetwork {
 
 
 }
-
-
-
-// THERE'S NO WAY TO KNOW WHICH NODES ARE IN THE GRAPH (maybe add a graph object)
