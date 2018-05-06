@@ -48,17 +48,17 @@ public class ReadFile {
     }
 
     public static void main(String[] args) throws IOException {
-        String file_name = "/Users/linshiyu/Desktop/gettysburg.txt";
+        String file_name = "/Users/apoole/Desktop/gettysburg.txt";
         ReadFile file = new ReadFile(file_name);
         String[] gettysburg = file.OpenFile();
         System.out.println(gettysburg[0]);
-        System.out.println(gettysburg[0].getClass().getName());
+//        System.out.println(gettysburg[0].getClass().getName());
         System.out.println(gettysburg[1]);
-        System.out.println(gettysburg[1].getClass().getName());
+//        System.out.println(gettysburg[1].getClass().getName());
         System.out.println(gettysburg[2]);
-        System.out.println(gettysburg[2].getClass().getName());
-        System.out.println(gettysburg[3]);
-        System.out.println(gettysburg[3].getClass().getName());
+//        System.out.println(gettysburg[2].getClass().getName());
+//        System.out.println(gettysburg[3]);
+//        System.out.println(gettysburg[3].getClass().getName());
 
     }
 }
