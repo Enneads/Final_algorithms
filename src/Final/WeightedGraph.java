@@ -32,10 +32,12 @@ public class WeightedGraph {
         }
     }
 
-    public Boolean inGraph(Vertex v){
-        if (graphMap.containsKey(v)){
-            return true;
+    public Boolean inGraph(String key){
+        for (String name:names){
+            if(key.equals(name)){
+                return true;
         }
+            return false;
     }
 
 
