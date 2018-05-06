@@ -43,22 +43,28 @@ public class WeightedGraph {
 
 
     public void addEdge(Vertex source, Vertex target) {
-        LinkedList<Edge> edgeList = (LinkedList)this.graphMap.get(source.getKey());
+        // if neither source nor target in graph
+        //if(!this.inGraph(source) && !this.inGraph(target)) throw new IllegalArgumentException;
+        
+        LinkedList<Edge> edgeList = (LinkedList)this.graphMap.get(source);
         boolean found = false;
-        Iterator var6 = edgeList.iterator();
-
+        Iterator iter = edgeList.iterator();
+           
+        // if no source in graph
         if(!names.contains(source.getKey())){
             names.add(source.getKey());
         }
-
+        
+        // if no target in graph
         if(!names.contains(target.getKey())){
             names.add(target.getKey());
         }
 
+        
         while(true) {
             Edge edge;
             do {
-                if (!var6.hasNext()) {
+                if (!iter.hasNext()) {
                     if (!found) {
                         edge = new Edge(source, target);
                         edgeList.add(edge);
@@ -67,8 +73,8 @@ public class WeightedGraph {
                     return;
                 }
 
-                edge = (Edge)var6.next();
-            } while(!edge.getSource().getKey().equals(target.getKey()) && !edge.getTarget().getKey().equals(target.getKey()));
+                edge = (Edge)iter.next();
+            } while(!edge.getSource().equals(target) && !edge.getTarget().equals(target));
 
             edge.setWeight(edge.getWeight() + 1D);
             found = true;
