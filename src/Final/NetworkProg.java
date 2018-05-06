@@ -14,11 +14,11 @@ public class NetworkProg {
     private Map map = new HashMap();
     WeightedGraph graph;
 
-//    public NetworkProg() {
-//        this.graph = new WeightedGraph(this.map);
-//    }
+    public NetworkProg() {
+        this.graph = new WeightedGraph(this.map);
+    }
 
-    public void makeNetwork(String fileName){
+    public void makeNetwork(String fileName) throws IOException {
         ReadFile file = new ReadFile(fileName);
         String[] text =  file.OpenFile(); // fix how this exception is handled
 
@@ -46,6 +46,16 @@ public class NetworkProg {
 //        String[] cuttedLine = line.split("\\W+");
         return line.split("\\W+");
     }
+
+    public static void main(String[] args) throws IOException {
+        String file_name = "/Users/linshiyu/Desktop/gettysburg.txt";
+        NetworkProg newNet = new NetworkProg();
+        newNet.makeNetwork(file_name);
+        System.out.print(newNet);
+    }
+
+
+
 }
 
 
