@@ -86,9 +86,6 @@ public class WeightedGraph {
                 graphMap.put(e.getTarget(), tEdges);
             }
         }
-
-
-
     }
 
 
@@ -99,13 +96,28 @@ public class WeightedGraph {
         else {
             return true;
         }
-
     }
+
+//    public void addEdge(String s1, String s2){
+//        // 1. if neither string is in the graph
+//
+//        if(!inGraph(s1) && !inGraph(s2)){// checks whether a node of this
+//
+//        }
+//
+//        // 2. if one of the strings is in the graph
+//
+//        // 3. if both of the strings are in the graph, but not connected
+//
+//        // 4. if both of the strings are in the grpah and connected
+//
+//    }
+
 
 
     public void addEdge(String s1, String s2){
-        System.out.println(s1);
-        System.out.println(s2);
+        //System.out.println(s1);
+        //System.out.println(s2);
         if (s1.equals(s2)){
             return;
         }
@@ -116,7 +128,7 @@ public class WeightedGraph {
                     Vertex v1 = new Vertex(s1);
                     Vertex v2 = new Vertex(s2);
                     Edge newEdge = new Edge(v1,v2);
-                    System.out.println(newEdge.getWeight());
+                    //System.out.println(newEdge.getWeight());
                     LinkedList<Edge> vList = new LinkedList<Edge>();
                     vList.add(newEdge);
 
@@ -137,7 +149,7 @@ public class WeightedGraph {
                         }
                     }
                     Edge newEdge = new Edge(v1, v2);
-                    System.out.println(newEdge.getWeight());
+                    //System.out.println(newEdge.getWeight());
                     LinkedList<Edge> vList = new LinkedList<Edge>();
                     vList.add(newEdge);
                     graphMap.put(v1, vList);
@@ -177,7 +189,7 @@ public class WeightedGraph {
                         }
                     }
                     Edge newEdge = new Edge(v1, v2);
-                    System.out.println(newEdge.getWeight());
+                    //System.out.println(newEdge.getWeight());
 
                     LinkedList<Edge> vList = new LinkedList<Edge>();
                     vList.add(newEdge);
@@ -223,28 +235,33 @@ public class WeightedGraph {
                     }
                     LinkedList<Edge> foundVer1 = graphMap.get(ver1);
                     LinkedList<Edge> foundVer2 = graphMap.get(ver2);
-                    Iterator iter = foundVer1.iterator();
-                    while (iter.hasNext()) {
-                        Edge verEdge1 = (Edge) iter.next();
-                        if (verEdge1.getTarget().equals(ver2) || verEdge1.getSource().equals(ver2)) {
-                            verEdge1.setWeight(verEdge1.getWeight() + 1);
-                            System.out.println(verEdge1.getWeight());
 
-                        }
-
-//                    foundVer.add(newEdge);
-//                    graphMap.remove(ver);
-//                    graphMap.put(ver,foundVer);
-                    }
-                    Iterator it = foundVer2.iterator();
-                    while (it.hasNext()) {
-                        Edge verEdge2 = (Edge) it.next();
-                        if (verEdge2.getSource().equals(ver1) || verEdge2.getTarget().equals(ver1)) {
-                            verEdge2.setWeight(verEdge2.getWeight() + 1);
-                            System.out.println(verEdge2.getWeight());
-
+                    for (Edge commEdge : foundVer1){
+                        if (commEdge.getTarget().equals(ver2) || commEdge.getSource().equals(ver2)) {
+                            double wei = commEdge.getWeight() + 1;
+                            Edge newerEdge = commEdge;
+                            newerEdge.setWeight(wei);
+                            foundVer1.remove(commEdge);
+                            foundVer1.add(newerEdge);
+                            //System.out.println(commEdge.getWeight());
+                            break;
                         }
                     }
+
+                    for (Edge commEdge : foundVer2){
+                        if (commEdge.getTarget().equals(ver1) || commEdge.getSource().equals(ver1)) {
+                            double wei = commEdge.getWeight() + 1;
+                            Edge newerEdge = commEdge;
+                            newerEdge.setWeight(wei);
+                            foundVer2.remove(commEdge);
+                            foundVer2.add(newerEdge);
+                            //System.out.println(commEdge.getWeight());
+                            break;
+
+                        }
+                    }
+
+
                 }
             }
 
@@ -364,15 +381,33 @@ public class WeightedGraph {
 
     @Override
     public String toString() {
-        String str = "WeightedGraph{";
+        // toString to an adjacency list
+        String str = "";
         Set<Vertex> keys = graphMap.keySet();
         for (Vertex v : keys) {
-            str = str.concat("\nNAME: " + v.getKey() + " connected to:");
-            LinkedList<Edge> edges = graphMap.get(v);
-            for (Edge e : edges) {
-                str = str.concat(e.getTarget().toString() + " (" + e.getWeight() + "), ");
+            str = str.concat("\n" + v.getKey() + "(" + v.getWeight() + ")"); // separate lines for every new node
+            LinkedList<Edge> edgelist = graphMap.get(v);
+            Iterator iter = edgelist.iterator();
+            while (iter.hasNext()) {
+                Edge e = (Edge) iter.next();
+                Vertex end = e.getTarget(v);
+                str = str.concat(" -" + e.getWeight() + "-> " + end.getKey() + "(" + end.getWeight() + ")");
             }
         }
-        return str + '}';
+        return str;
     }
+
+//    @Override
+//    public String toString() {
+//        String str = "WeightedGraph{";
+//        Set<Vertex> keys = graphMap.keySet();
+//        for (Vertex v : keys) {
+//            str = str.concat("\nNAME: " + v.getKey() + " connected to:");
+//            LinkedList<Edge> edges = graphMap.get(v);
+//            for (Edge e : edges) {
+//                str = str.concat(e.getTarget().toString() + " (" + e.getWeight() + "), ");
+//            }
+//        }
+//        return str + '}';
+//    }
 }

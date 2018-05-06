@@ -90,6 +90,18 @@ public class Edge {
     }
 
     /**
+     * Returns the {@code target} Vertex (one of the ends).
+     *
+     * @param s the source of the vertex you want to check
+     * @return the {@code target} Vertex
+     */
+    public Vertex getTarget(Vertex s) {
+        if(s.equals(source))
+            return target;
+        return source;
+    }
+
+    /**
      * Returns the {@code edge}.
      *
      * @return the {@code edge}
@@ -121,7 +133,7 @@ public class Edge {
     /**
      * Sets the weight of vertex {@code v}.
      *
-     * @param edge the weight of vertex {@code v}
+     * @param weight the weight of vertex {@code v}
      */
     public void setWeight(double weight) {
         this.weight = weight;
