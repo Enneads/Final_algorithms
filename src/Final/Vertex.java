@@ -10,6 +10,11 @@ public class Vertex {
         this.weight = weight;
     }
 
+    public Vertex(String key) {
+        this.key = key;
+        this.weight = 0D;
+    }
+
     public String getKey() {
         return key;
     }

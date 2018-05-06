@@ -81,6 +81,46 @@ public class WeightedGraph {
         }
     }
 
+    public void addEdge(String source, String target) {
+        // if neither source nor target in graph
+        //if(!this.inGraph(source) && !this.inGraph(target)) throw new IllegalArgumentException;
+
+        LinkedList<Edge> edgeList = (LinkedList)this.graphMap.get(source);
+        boolean found = false;
+        Iterator iter = edgeList.iterator();
+
+        // if no source in graph
+        if(!names.contains(source)){
+            names.add(source); // NEED TO ADD METHOD TO ACTUALLY ADD THIS VERTEX TO THE GRAPH
+        }
+
+        // if no target in graph
+        if(!names.contains(target)){
+            names.add(target); // NEED TO ADD METHOD TO ACTUALLY ADD THIS VERTEX TO THE GRAPH
+        }
+
+
+        while(true) {
+            Edge edge;
+            do {
+                if (!iter.hasNext()) {
+                    if (!found) {
+                        edge = new Edge(source, target);
+                        edgeList.add(edge);
+                    }
+
+                    return;
+                }
+
+                edge = (Edge)iter.next();
+            } while(!edge.getSource().equals(target) && !edge.getTarget().equals(target));
+
+            edge.setWeight(edge.getWeight() + 1D);
+            found = true;
+        }
+    }
+
+
     public LinkedList<String> getNames(){
         return this.names;
     }

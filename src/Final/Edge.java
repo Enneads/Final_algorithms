@@ -4,10 +4,12 @@
 //
 
 package Final;
+import java.util.*;
 
 public class Edge {
     private Vertex source;
     private Vertex target;
+    private Set<Vertex> edge;
     private double weight;
 
     /**
@@ -19,6 +21,7 @@ public class Edge {
     public Edge(Vertex source, Vertex target) {
         this.source = source;
         this.target = target;
+        this.edge = new HashSet<Edge>(source, target);
         this.weight = 1D;
     }
 
