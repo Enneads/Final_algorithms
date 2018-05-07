@@ -26,6 +26,29 @@ public class TextNetwork {
         this.graph = graph;
     }
 
+    /**
+     * This method makes a the network by taking a file name.
+     * @param fileName
+     * @throws IOException
+     */
+
+//    public void makeNetwork(String fileName) throws IOException {
+//        ReadFile file = new ReadFile(fileName);
+//        String[] text =  file.OpenFile();
+//
+//        for (String line : text) {
+//            String[] words = cutString(line);
+//            for (String word : words) {
+//                for (String oWord : words)
+//                    if (word.equals(oWord)) {
+//                        continue; // it's telling me to get rid of this, but i want it to skip so that it doesn't compare a word to itself
+//                    }
+//                    else {
+//                        graph.addEdge(new Vertex(word), new Vertex(oWord));
+//                    }
+//            }
+//        }
+//    }
 
 
     public WeightedGraph getGraph() {
@@ -40,22 +63,21 @@ public class TextNetwork {
 
         // parses through every line in text
         for (String line : text) {
+
+            //String tempStr = "";
+
             // make line uppercase
+            // for(int j = 0; j < line.length(); j++) {//start character loop
             line = line.toUpperCase();
 
             // an array of words in a line
             String[] wordList = cutString(line);
 
-            LinkedList<String> inLine = new LinkedList<String>();
-
-            // parse through every word in line
+            //
             for (String i : wordList) {
-                if(!inLine.contains(i)){
-                    inLine.add(i);
-                }
-                for (String j : inLine) {
-                    //Edge e = new Edge(i, j);
-                    graph.addEdge(i, j);
+                for (String j : wordList) {
+                    Edge e = new Edge(i, j);
+                    graph.addEdge(e);
                 }
             }
         }
@@ -102,12 +124,12 @@ public class TextNetwork {
                 while (iter2.hasNext()){
                     Edge e = (Edge)iter2.next();
                     double edgeweight = e.getWeight();
-                    Vertex u = e.getSource();
-//                    for (Vertex v2:e.getEdge()){
-//                        if (!v2.equals(v)){
-//                            u = v2;
-//                        }
-//                    }
+                    Vertex u = null;
+                    for (Vertex v2:e.getEdge()){
+                        if (!v2.equals(v)){
+                            u = v2;
+                        }
+                    }
 
                     double nodeweight = u.getWeight();
                     sum += nodeweight*Math.exp(-1/edgeweight);
@@ -123,13 +145,10 @@ public class TextNetwork {
 
 
     public static void main(String[] args) throws IOException {
-        String file_name = "/Users/apoole/Desktop/gettysburg.txt";
+        String file_name = "/Users/lstaplet/Desktop/gettysburg.txt";
         TextNetwork newNet = new TextNetwork();
         newNet.makeGraph(file_name);
 //        System.out.print(newNet);
-        //LinkedList<String> active = new LinkedList<String>();
-        //active.add("A");
-        //newNet.SpreadingActivation(3, active);
         System.out.print(newNet.getGraph().toString());
     }
 
