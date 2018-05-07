@@ -283,7 +283,7 @@ public class TextGraph {
         abcGraph.makeGraph(file_name);
         LinkedList<String> active = new LinkedList<String>();
         active.add("A");
-        abcGraph.SpreadingActivation(2, active);
+        abcGraph.SpreadingActivation(1, active);
         System.out.print(abcGraph.getSortedVertices(abcGraph.getGraph().getVertices()));
         System.out.print(abcGraph.getGraph().getEdges());
     }
