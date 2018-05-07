@@ -55,6 +55,7 @@ public class EdgeWeightedGraph {
         return(edges.contains(e));
     }
 
+
     public boolean areAdjacent(String s1, String s2) {
         // search edges to see if v1 and v2 are in one together
         for (Edge e : edges) {
@@ -109,11 +110,11 @@ public class EdgeWeightedGraph {
                 Vertex v1 = new Vertex(s1);
                 Vertex v2 = new Vertex(s2);
                 Edge e = new Edge(v1,v2);
-                System.out.println(e.getWeight());
+//                System.out.println(e.getWeight());
 
                 edges.add(e);
                 vertices.add(v1);
-                System.out.println(e.getWeight());
+//                System.out.println(e.getWeight());
                 vertices.add(v2);
                 return;
             }//end if statement

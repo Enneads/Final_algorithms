@@ -43,20 +43,20 @@ public class TextGraph {
 //        StringArray newArr = new StringArray();
         String str = "";
         for (String s : arr) {
-            s = s.concat(" " + s + " ");
+            s = s + " ";
             if (!str.contains(s)) {
                 str = str.concat(s);
             }
         }
 
+        return cutString(str);
 
-
-        String[] newArr = null;
-        for (int i = 0; i < arr.length; i++) {
-            if (!contains(arr[i], newArr)) {
-                newArr[newArr.length] = arr[i];
-            }
-        }
+//        String[] newArr = null;
+//        for (int i = 0; i < arr.length; i++) {
+//            if (!contains(arr[i], newArr)) {
+//                newArr[newArr.length] = arr[i];
+//            }
+//        }
     }
 
     public void makeGraph(String fileName) throws IOException {
@@ -69,8 +69,22 @@ public class TextGraph {
 
             // an array of words in a line
             String[] wordList = cutString(line);
+//            for (String w : wordList) {
+////                System.out.println(w);
+//            }
 
             ArrayList<String> lineList = new ArrayList<String>();
+
+            wordList = makeDistinct(wordList);
+//            for (String w : wordList) {
+//                System.out.println(w);
+//            }
+
+            for (int i = 0; i < wordList.length - 1; i++) {
+                for (int j = i + 1; j < wordList.length; j++) {
+                    graph.addEdge(wordList[i], wordList[j]);
+                }
+            }
 
 
 
@@ -79,24 +93,24 @@ public class TextGraph {
 
 
             // parse through every word in line]
-            for (String i : wordList) {
-                if(!lineList.contains(i)) {
-                    lineList.add(i);
-                }
-
-//                if (lineList.isEmpty()) {
+//            for (String i : wordList) {
+//                if(!lineList.contains(i)) {
 //                    lineList.add(i);
-//                } else {
-//                    for (String s : lineList) {
-//                        if (!s.equals(i)) {
-//                            lineList.add(s);
+//                }
+//
+////                if (lineList.isEmpty()) {
+////                    lineList.add(i);
+////                } else {
+////                    for (String s : lineList) {
+////                        if (!s.equals(i)) {
+////                            lineList.add(s);
+////                        }
+//
+//                        for (String j : lineList) {
+//                            //System.out.println(j);
+//                            graph.addEdge(i, j);
 //                        }
-
-                        for (String j : lineList) {
-                            //System.out.println(j);
-                            graph.addEdge(i, j);
-                        }
-                    }
+//                    }
                 }
             }
 
