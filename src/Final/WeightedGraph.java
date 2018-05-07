@@ -49,6 +49,44 @@ public class WeightedGraph {
     }
 
 
+    // returns the common edge between two vertices
+    // returns null if not adjacent
+    public Edge findEdge(Vertex source, Vertex target){
+        Edge sourceToTarget = null;
+
+        //find the edge from source to target
+        LinkedList<Edge> sourceEdges = graphMap.get(source);
+        Iterator iter = sourceEdges.iterator();
+        while(iter.hasNext()){
+            Edge e = (Edge)iter.next();
+            if(e.getTarget(source).equals(target))
+                sourceToTarget = e;
+        }
+
+        return sourceToTarget;
+    }
+
+    public boolean areAdjacent(Vertex v1, Vertex v2){
+        // search adjacent vertices to v1 to see if v2 is one
+        for(Edge e1:graphMap.get(v1)){ // search all edges e1 connected to v1
+            if(e1.getTarget(v1).equals(v2)){ // if an edge is connected to v2
+                return true;
+            }
+        }
+
+        // search adjacent vertices to v2 to see if v1 is one
+        for(Edge e2:graphMap.get(v2)){ // search all edges e2 connected to v2
+            if(e2.getTarget(v2).equals(v1)){ // if an edge is connected to v1
+                return true;
+            }
+        }
+
+        // if neither v1 nor v2 is in either's list of adjacent vertices,
+        // then return false
+        return false;
+    }
+
+
     public void addEdge(Edge e){
         // makes source vertex if none exists
         if (!inGraph(e.getSource().getKey()) || !inGraph(e.getTarget().getKey())) {
@@ -88,14 +126,9 @@ public class WeightedGraph {
         }
     }
 
-
+    // if s is in graph return false, otherwise return true
     private boolean checkVer(String s) {
-        if (names.contains(s)) {
-            return false;
-        }
-        else {
-            return true;
-        }
+        return(!names.contains(s));
     }
 
 //    public void addEdge(String s1, String s2){
@@ -116,14 +149,16 @@ public class WeightedGraph {
 
 
     public void addEdge(String s1, String s2){
-        //System.out.println(s1);
-        //System.out.println(s2);
+        //System.out.println("new vertex");
         if (s1.equals(s2)){
+
+            //System.out.println("equals itself");
             return;
         }
         else {
-            if (checkVer(s1)){
-                if (checkVer(s2)){
+            if (checkVer(s1) && checkVer(s2)){// both not in graph
+
+                    //System.out.println("both not");
                     //When both Vertexes are not in the graph.
                     Vertex v1 = new Vertex(s1);
                     Vertex v2 = new Vertex(s2);
@@ -137,50 +172,48 @@ public class WeightedGraph {
                     names.add(s1);
                     names.add(s2);
 
-                }
-                else {
-                    //s1 is not in the graph. s2 is.
+                }// end both not in graph
+
+            if (checkVer(s1) && !checkVer(s2)){// s2 in graph, s1 not
+
+                    //System.out.println("s2 in graph, s1 not");
+                    //s1 is not in the graph, but s2 is.
                     Vertex v1 = new Vertex(s1);
                     Vertex v2 = null;
+
+                    // Search the set of vertices to find the
+                    // vertex with key s2. Assign it to v2.
                     Set<Vertex> keys = graphMap.keySet();
                     for (Vertex v : keys) {
                         if (v.getKey().equals(s2)) {
                             v2 = v;
                         }
                     }
-                    Edge newEdge = new Edge(v1, v2);
+                    Edge newEdge = new Edge(v1, v2); // new edge between v1 (new node) and v2
                     //System.out.println(newEdge.getWeight());
-                    LinkedList<Edge> vList = new LinkedList<Edge>();
-                    vList.add(newEdge);
-                    graphMap.put(v1, vList);
-                    names.add(s1);
-                    LinkedList<Edge> foundVer = graphMap.get(v2);
-                    foundVer.add(newEdge);
-                    graphMap.remove(v2);
-                    graphMap.put(v2,foundVer);
 
-//                    Edge newEdge = new Edge(s1,s2);
-//                    LinkedList<Edge> vList = new LinkedList<Edge>();
-//                    vList.add(newEdge);
-//                    Vertex v1 = new Vertex(s1);
-//                    graphMap.put(v1, vList);
-//                    names.add(s1);
-//                    Vertex ver = null;
-//                    Set<Vertex> keys = graphMap.keySet();
-//                    for (Vertex v : keys) {
-//                        if (v.getKey().equals(s2)) {
-//                            ver = v;
-//                        }
-//                    }
-//                    LinkedList<Edge> foundVer = graphMap.get(ver);
-//                    foundVer.add(newEdge);
-//                    graphMap.remove(ver);
-//                    graphMap.put(ver,foundVer);
-                }
-            }
-            else {
-                if (checkVer(s2)) {
+                    // Add new edge to v1's list of edges
+                    LinkedList<Edge> v1List = new LinkedList<Edge>();
+                    v1List.add(newEdge);
+                    graphMap.put(v1, v1List);
+                    names.add(s1);
+
+                    // Add new edge to v2's list of edges
+                    LinkedList<Edge> v2List = graphMap.get(v2);
+                    v2List.add(newEdge);
+
+                }// end s2 in graph, s1 not
+
+            if (!checkVer(s1) && checkVer(s2)) {// s1 in graph, s2 not
+
+                //System.out.println("s1 in graph, s2 not");
+                if (checkVer(s2)) { //if s2 is not in graph
+
+                    //make new vertex v2 with key s2
                     Vertex v2 = new Vertex(s2);
+
+                    // search vertices for vertex with key s1,
+                    // set it to v1
                     Vertex v1 = null;
                     Set<Vertex> keys = graphMap.keySet();
                     for (Vertex v : keys) {
@@ -188,226 +221,107 @@ public class WeightedGraph {
                             v1 = v;
                         }
                     }
+
+                    // make new edge
                     Edge newEdge = new Edge(v1, v2);
                     //System.out.println(newEdge.getWeight());
 
-                    LinkedList<Edge> vList = new LinkedList<Edge>();
-                    vList.add(newEdge);
-                    graphMap.put(v2, vList);
+                    // set edge to v2 (not previously in) and add to graph
+                    LinkedList<Edge> v2List = new LinkedList<Edge>();
+                    v2List.add(newEdge);
+                    graphMap.put(v2, v2List);
                     names.add(s2);
+
+                    // add edge to v1 (already in graph)
                     LinkedList<Edge> foundVer = graphMap.get(v1);
                     foundVer.add(newEdge);
-                    graphMap.remove(v1);
-                    graphMap.put(v1,foundVer);
-
-                    //s1 is in the graph. s2 is not.
-//                    Edge newEdge = new Edge(s1, s2);
-//                    LinkedList<Edge> vList = new LinkedList<Edge>();
-//                    vList.add(newEdge);
-//                    Vertex v2 = new Vertex(s2);
-//                    graphMap.put(v2, vList);
-//                    names.add(s2);
-//                    Vertex ver = null;
-//                    Set<Vertex> keys = graphMap.keySet();
-//                    for (Vertex v : keys) {
-//                        if (v.getKey().equals(s1)) {
-//                            ver = v;
-//                        }
-//                    }
-//                    LinkedList<Edge> foundVer = graphMap.get(ver);
-//                    foundVer.add(newEdge);
-//                    graphMap.remove(ver);
-//                    graphMap.put(ver, foundVer);
                 }
 
-                else {
-                    // s1 is in the graph. s2 is in the graph.
-                    Vertex ver1 = null;
-                    Vertex ver2 = null;
+            }// end s1 in graph, s2 not
+
+            if (!checkVer(s1) && !checkVer(s2)) {// s1 and s2 in graph
+
+                    //System.out.println("s1 and s2 in graph...");
+                    Vertex v1 = null;
+                    Vertex v2 = null;
+
+                    // search vertices for one with key that matches s1 and
+                    // one with key that matches s2
                     Set<Vertex> keys = graphMap.keySet();
                     for (Vertex v : keys) {
-                        if (v.getKey().equals(s1)) {
-                            ver1 = v;
+                        if (v.getKey().equals(s1)) { // v1 matches s1
+                            v1 = v;
                         }
-                        if (v.getKey().equals(s2)) {
-                            ver2 = v;
-                        }
-                    }
-                    LinkedList<Edge> foundVer1 = graphMap.get(ver1);
-                    LinkedList<Edge> foundVer2 = graphMap.get(ver2);
-
-                    for (Edge commEdge : foundVer1){
-                        if (commEdge.getTarget().equals(ver2) || commEdge.getSource().equals(ver2)) {
-                            double wei = commEdge.getWeight() + 1;
-                            Edge newerEdge = commEdge;
-                            newerEdge.setWeight(wei);
-                            foundVer1.remove(commEdge);
-                            foundVer1.add(newerEdge);
-                            //System.out.println(commEdge.getWeight());
-                            break;
+                        if (v.getKey().equals(s2)) { // v2 matches s2
+                            v2 = v;
                         }
                     }
 
-                    for (Edge commEdge : foundVer2){
-                        if (commEdge.getTarget().equals(ver1) || commEdge.getSource().equals(ver1)) {
-                            double wei = commEdge.getWeight() + 1;
-                            Edge newerEdge = commEdge;
-                            newerEdge.setWeight(wei);
-                            foundVer2.remove(commEdge);
-                            foundVer2.add(newerEdge);
-                            //System.out.println(commEdge.getWeight());
-                            break;
+                    Edge edge12 = findEdge(v1, v2); // find shared edge between v1 and v2
 
-                        }
+                    // if v1 and v2 are not adjacent
+                    if (edge12==null){
+
+                        //System.out.println("... but not adjacent");
+
+                        // add an edge between v1 and v2
+                        Edge newEdge = new Edge(v1,v2);
+
+                        LinkedList<Edge> vList1 = graphMap.get(v1);
+                        LinkedList<Edge> vList2 = graphMap.get(v2);
+                        vList1.add(newEdge);
+                        vList2.add(newEdge);
                     }
 
+                    // if v1 and v2 are adjacent
+                    // increase the weight of their shared edge by 1
+                    else {
 
+                        //System.out.println("... and adjacent");
+                        double edgeWeight = edge12.getWeight();
+                        edgeWeight=edgeWeight+1;
+                        edge12.setWeight(edgeWeight);
+                    }
                 }
             }
 
         }
-    }
 
-
-//        if (!this.inGraph(e)){ // edge is not in graph
-//            // if neither ends are in the graph
-//            if ()
-//            // if one or both of the ends are not in the graph
-//        }
-
-//
-//        else {
-//            // increase edge weight by 1
-//        }
-//
-//
-//
-//        // if ends are in the graph, but there is no edge
-//
-//        // if ends are in the graph and there is an edge between them
-//
-//        // if edge is already in edge list
-//        // this assumes v1 and v2 are already in the graph
-//        Vertex v1 = e.getSource();
-//        Vertex v2 = e.getTarget();
-//        LinkedList<Edge> edgelist = (LinkedList)this.graphMap.
-
-
-
-
-
-
-//    public void addEdge(Vertex source, Vertex target) {
-//        // if neither source nor target in graph
-//        //if(!this.inGraph(source) && !this.inGraph(target)) throw new IllegalArgumentException;
-//
-//        LinkedList<Edge> edgeList = (LinkedList)this.graphMap.get(source);
-//        boolean found = false;
-//        Iterator iter = edgeList.iterator();
-//
-//        // if no source in graph
-//        if(!names.contains(source.getKey())){
-//            names.add(source.getKey());
-//        }
-//
-//        // if no target in graph
-//        if(!names.contains(target.getKey())){
-//            names.add(target.getKey());
-//        }
-//
-//
-//        while(true) {
-//            Edge edge;
-//            do {
-//                if (!iter.hasNext()) {
-//                    if (!found) {
-//                        edge = new Edge(source, target);
-//                        edgeList.add(edge);
-//                    }
-//
-//                    return;
-//                }
-//
-//                edge = (Edge)iter.next();
-//            } while(!edge.getSource().equals(target) && !edge.getTarget().equals(target));
-//
-//            edge.setWeight(edge.getWeight() + 1D);
-//            found = true;
-//        }
-//    }
-
-//    public void addEdge(String source, String target) {
-//        // if neither source nor target in graph
-//        //if(!this.inGraph(source) && !this.inGraph(target)) throw new IllegalArgumentException;
-//
-//        LinkedList<Edge> edgeList = (LinkedList)this.graphMap.get(source);
-//        boolean found = false;
-//        Iterator iter = edgeList.iterator();
-//
-//        // if no source in graph
-//        if(!names.contains(source)){
-//            names.add(source); // NEED TO ADD METHOD TO ACTUALLY ADD THIS VERTEX TO THE GRAPH
-//        }
-//
-//        // if no target in graph
-//        if(!names.contains(target)){
-//            names.add(target); // NEED TO ADD METHOD TO ACTUALLY ADD THIS VERTEX TO THE GRAPH
-//        }
-//
-//        while(true) {
-//            Edge edge;
-//            do {
-//                if (!iter.hasNext()) {
-//                    if (!found) {
-//                        edge = new Edge(source, target);
-//                        edgeList.add(edge);
-//                    }
-//
-//                    return;
-//                }
-//
-//                edge = (Edge)iter.next();
-//            } while(!edge.getSource().equals(target) && !edge.getTarget().equals(target));
-//
-//            edge.setWeight(edge.getWeight() + 1D);
-//            found = true;
-//        }
-//    }
 
 
     public LinkedList<String> getNames(){
         return this.names;
     }
 
-    @Override
-    public String toString() {
-        // toString to an adjacency list
-        String str = "";
-        Set<Vertex> keys = graphMap.keySet();
-        for (Vertex v : keys) {
-            str = str.concat("\n" + v.getKey() + "(" + v.getWeight() + ")"); // separate lines for every new node
-            LinkedList<Edge> edgelist = graphMap.get(v);
-            Iterator iter = edgelist.iterator();
-            while (iter.hasNext()) {
-                Edge e = (Edge) iter.next();
-                Vertex end = e.getTarget(v);
-                str = str.concat(" -" + e.getWeight() + "-> " + end.getKey() + "(" + end.getWeight() + ")");
-            }
-        }
-        return str;
-    }
-
 //    @Override
 //    public String toString() {
-//        String str = "WeightedGraph{";
+//        // toString to an adjacency list
+//        String str = "";
 //        Set<Vertex> keys = graphMap.keySet();
 //        for (Vertex v : keys) {
-//            str = str.concat("\nNAME: " + v.getKey() + " connected to:");
-//            LinkedList<Edge> edges = graphMap.get(v);
-//            for (Edge e : edges) {
-//                str = str.concat(e.getTarget().toString() + " (" + e.getWeight() + "), ");
+//            str = str.concat("\n" + v.getKey() + "(" + v.getWeight() + ")"); // separate lines for every new node
+//            LinkedList<Edge> edgelist = graphMap.get(v);
+//            Iterator iter = edgelist.iterator();
+//            while (iter.hasNext()) {
+//                Edge e = (Edge) iter.next();
+//                Vertex end = e.getTarget(v);
+//                str = str.concat(" -" + e.getWeight() + "-> " + end.getKey() + "(" + end.getWeight() + ")");
 //            }
 //        }
-//        return str + '}';
+//        return str;
 //    }
+
+    @Override
+    public String toString() {
+        String str = "WeightedGraph{";
+        Set<Vertex> keys = graphMap.keySet();
+        for (Vertex v : keys) {
+            str = str.concat("\nNAME: " + v.getKey() + " connected to:");
+            LinkedList<Edge> edges = graphMap.get(v);
+            for (Edge e : edges) {
+                str = str.concat(e.getTarget().toString() + " (" + e.getWeight() + "), ");
+            }
+        }
+        return str + '}';
+    }
 }
