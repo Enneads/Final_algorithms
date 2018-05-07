@@ -30,11 +30,21 @@ public class Vertex {
     /**
      * Overloaded constructor initializes a vertex with name key and weight 1.
      *
-     * @param key
+     * @param key name of the vertex to be labeled
      */
     public Vertex(String key) {
         this.key = key;
         this.weight = 0D;
+    }
+
+    /**
+     * Overloaded constructor creates a deep copy of a vertex.
+     *
+     * @param v vertex to be copied
+     */
+    public Vertex(Vertex v) {
+        this.key = v.getKey();
+        this.weight = v.getWeight();
     }
 
     /**
@@ -86,6 +96,16 @@ public class Vertex {
             return false;
         }
         return true;
+    }
+
+    /**
+     * Creates a deep copy of this vertex
+     *
+     * @return clone of vertex
+     */
+    @Override
+    public Vertex clone(){
+        return new Vertex(this.getKey(), this.getWeight());
     }
 
     @Override

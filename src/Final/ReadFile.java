@@ -48,7 +48,7 @@ public class ReadFile {
     }
 
     public static void main(String[] args) throws IOException {
-        String file_name = "/Users/apoole/Desktop/gettysburg.txt";
+        String file_name = "/Users/lstaplet/Desktop/gettysburg.txt";
         ReadFile file = new ReadFile(file_name);
         String[] gettysburg = file.OpenFile();
         System.out.println(gettysburg[0]);

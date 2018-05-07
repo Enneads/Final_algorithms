@@ -1,7 +1,5 @@
 package Final;
 
-import com.sun.xml.internal.fastinfoset.util.StringArray;
-
 import java.io.IOException;
 import java.util.*;
 
@@ -120,19 +118,81 @@ public class TextGraph {
                 }
             }
 
+//    public void SpreadingActivation(int iterTime, LinkedList<String> active) {
+//
+//        Map<Vertex, LinkedList<Edge>> graphMap = new HashMap<Vertex, LinkedList<Edge>>();
+//
+//        for (Vertex v : graph.getVertices()) {
+//            graphMap.put(v, graph.adjacentTo(v));
+//        }
+//
+//        Map<Vertex, LinkedList<Edge>> network = graphMap;
+//
+//        // Create an initial network where important vertices (those in active list)
+//        // are assigned weight 1; every other vertex has weight 0.
+//        for (Vertex v : network.keySet()) { // loops over every vertex in network
+//            Iterator iter = active.iterator();
+//            while (iter.hasNext()) { // loops over every word in active
+//                String word = (String) iter.next();
+//                if (v.getKey().equals(word)) { // checks if vertex key is in active
+//                    v.setWeight(1D);
+//                }
+//            }
+//        }
+//
+//
+//        // loops through iterTime number of iterations
+//        for (int i=0; i<iterTime; i++){
+//
+//            // single iteration
+//            for (Vertex v : network.keySet()) {
+//                int degree = 0;
+//                double sum = 0;
+//
+//                LinkedList<Edge> edgelist = network.get(v);
+//
+//                double maxEdgeweight = 0;
+//                Iterator iter2 = edgelist.iterator();
+//                while (iter2.hasNext()){
+//                    Edge e = (Edge)iter2.next();
+//                    double edgeweight = e.getWeight();
+//
+//                    //calculate the maximum edge-weight for a vertex (use later)
+//                    if (edgeweight > maxEdgeweight){
+//                        maxEdgeweight = edgeweight;
+//                    }
+//                    Vertex u = null;
+//                    for (Vertex v2:e.getEdge()){
+//                        if (!v2.equals(v)){
+//                            u = v2;
+//                        }
+//                    }
+//
+//                    double nodeweight = u.getWeight();
+//                    sum += nodeweight*Math.exp(-1/(20*maxEdgeweight*edgeweight));
+//                    degree++;
+//
+//                    if(v.getWeight() != 1D){
+//                        v.setWeight(sum/degree);
+//                    }
+//                }
+//            }
+//        }
+//    }
+
     public void SpreadingActivation(int iterTime, LinkedList<String> active) {
 
-        Map<Vertex, LinkedList<Edge>> graphMap = new HashMap<Vertex, LinkedList<Edge>>();
+        Map<Vertex, LinkedList<Edge>> startGraph = new HashMap<Vertex, LinkedList<Edge>>();
+        Map<Vertex, LinkedList<Edge>> updatedGraph = new HashMap<Vertex, LinkedList<Edge>>();
 
         for (Vertex v : graph.getVertices()) {
-            graphMap.put(v, graph.adjacentTo(v));
+            startGraph.put(v, graph.adjacentTo(v));
+            updatedGraph.put(v,graph.adjacentTo(v));
         }
 
-        Map<Vertex, LinkedList<Edge>> network = graphMap;
-
-        // Create an initial network where important vertices (those in active list)
-        // are assigned weight 1; every other vertex has weight 0.
-        for (Vertex v : network.keySet()) { // loops over every vertex in network
+        // Create an initial network (startGraph) where important
+        // vertices (those in active list) are assigned weight 1.
+        for (Vertex v : startGraph.keySet()) { // loops over every vertex in startGraph
             Iterator iter = active.iterator();
             while (iter.hasNext()) { // loops over every word in active
                 String word = (String) iter.next();
@@ -142,21 +202,26 @@ public class TextGraph {
             }
         }
 
-
         // loops through iterTime number of iterations
         for (int i=0; i<iterTime; i++){
 
             // single iteration
-            for (Vertex v : network.keySet()) {
+            for (Vertex v : startGraph.keySet()) { // loops over every vertex in startGraph
                 int degree = 0;
                 double sum = 0;
 
-                LinkedList<Edge> edgelist = network.get(v);
+                LinkedList<Edge> edgelist = startGraph.get(v); // list of edges adjacent to v
 
+                double maxEdgeweight = 0;
                 Iterator iter2 = edgelist.iterator();
                 while (iter2.hasNext()){
                     Edge e = (Edge)iter2.next();
                     double edgeweight = e.getWeight();
+
+                    //calculate the maximum edge-weight for a vertex (use later)
+                    if (edgeweight > maxEdgeweight){
+                        maxEdgeweight = edgeweight;
+                    }
                     Vertex u = null;
                     for (Vertex v2:e.getEdge()){
                         if (!v2.equals(v)){
@@ -165,11 +230,15 @@ public class TextGraph {
                     }
 
                     double nodeweight = u.getWeight();
-                    sum += nodeweight*Math.exp(-1/(20*edgeweight));
+                    sum += nodeweight*Math.exp(-1/(20*maxEdgeweight*edgeweight));
                     degree++;
+                }
 
-                    if(v.getWeight() != 1D){
-                        v.setWeight(sum/degree);
+                // find corresponding vertex in updatedGraph
+                // and increase its weight as a function of neighbors of startGraph
+                for(Vertex m : startGraph.keySet()){
+                    if(m.equals(v) && v.getWeight() != 1D){
+                        m.setWeight(sum/degree);
                     }
                 }
             }
@@ -179,13 +248,13 @@ public class TextGraph {
 
 
     public static void main(String[] args) throws IOException {
-        String file_name = "/Users/lstaplet/Desktop/chimpmania.txt";
+        String file_name = "/Users/lstaplet/Desktop/gettysburg.txt";
         TextGraph abcGraph = new TextGraph();
         abcGraph.makeGraph(file_name);
-//        System.out.print(newNet);
         LinkedList<String> active = new LinkedList<String>();
-        active.add("NIGGER");
-        abcGraph.SpreadingActivation(2, active);
+        active.add("A");
+        abcGraph.SpreadingActivation(1, active);
         System.out.print(abcGraph.getGraph().getVertices());
+        System.out.print(abcGraph.getGraph().getEdges());
     }
 }// end TextGraph class

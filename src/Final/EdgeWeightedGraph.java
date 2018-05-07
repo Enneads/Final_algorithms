@@ -7,9 +7,32 @@ public class EdgeWeightedGraph {
     private LinkedList<Edge> edges;
     private LinkedList<Vertex> vertices;
 
+    /**
+     * Constructor creates an undirected, weighted graph stored as lists of edges and vertices.
+     *
+     * @param edges list of edges
+     * @param vertices list of vertices
+     */
     public EdgeWeightedGraph(LinkedList<Edge> edges,LinkedList<Vertex> vertices) {
         this.edges = edges;
         this.vertices = vertices;
+    }
+
+    /**
+     * Overloaded constructor creates a deep copy of a weighted graph.
+     *
+     * @param G edge-weighted graph to be copied
+     */
+    public EdgeWeightedGraph(EdgeWeightedGraph G) {
+        LinkedList<Edge> edgelist = new LinkedList<Edge>();
+        LinkedList<Vertex> vertexlist = new LinkedList<Vertex>();
+
+        for(Edge e : G.getEdges()){
+            Edge newEdge = new Edge(e.getSource(),e.getTarget())
+        }
+
+        this.edges = G.getEdges();
+        this.vertices = G.getVertices();
     }
 
     public LinkedList<Edge> getEdges() {
@@ -164,6 +187,22 @@ public class EdgeWeightedGraph {
             }//end if statement
     }// end addEdge method
 
+    /**
+     * Creates a deep copy of this edge
+     *
+     * @return clone of edge
+     */
+    @Override
+    public EdgeWeightedGraph clone(){
+        EdgeWeightedGraph newGraph = null;
+        LinkedList<Edge> edgelist = this.getEdges();
+
+        for (Edge e : edgelist){
+            newGraph.addEdge(e.getSource().getKey(),e.getTarget().getKey());
+        }
+
+        return newGraph;
+    }
 
     @Override
     public String toString() {

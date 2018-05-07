@@ -52,6 +52,18 @@ public class Edge {
     }
 
     /**
+     * Overloaded constructor that creates a deep copy of an edge {@code e}.
+     *
+     * @param e the edge to be copied
+     */
+    public Edge(Edge e) {
+        this.source = e.getSource();
+        this.target = e.getTarget();
+        this.edge = e.getEdge();
+        this.weight = this.getWeight();
+    }
+
+    /**
      * Overloaded constructor that initializes an edge between two vertices with names source and target with weight 1
      *
      * @param source the name of the source of an edge
@@ -130,7 +142,7 @@ public class Edge {
      *
      * @return the {@code edge}
      */
-    public Set<Vertex> getEdge() { return edge; }
+    public HashSet<Vertex> getEdge() { return edge; }
 
     public void setSource(Vertex source) {
         this.source = source;
@@ -163,10 +175,11 @@ public class Edge {
         this.weight = weight;
     }
 
-    @Override
+
     /**
-     * This method overrides equals. It checks if two edges are the same and returns a boolean.
+     * Overrides equals. Checks if two edges are the same and returns a boolean.
      */
+    @Override
     public boolean equals(Object obj) {
         if (this == obj)
             return true;
@@ -183,8 +196,20 @@ public class Edge {
         return false;
     }
 
+
+    /**
+     * Creates a deep copy of this edge
+     *
+     * @return clone of edge
+     */
+    @Override
+    public Edge clone(){
+        return new Edge(this.getSource().clone(),this.getTarget().clone(),this.getWeight());
+    }
+
+
     @Override
     public String toString() {
-        return source.getKey() + " to " + target.getKey() + " with weight " + this.weight;
+        return source.getKey() + " to " + target.getKey() + " with weight" + this.weight +"\n";
     }
 }
