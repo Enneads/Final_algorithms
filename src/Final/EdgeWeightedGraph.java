@@ -28,7 +28,7 @@ public class EdgeWeightedGraph {
         LinkedList<Vertex> vertexlist = new LinkedList<Vertex>();
 
         for(Edge e : G.getEdges()){
-            Edge newEdge = new Edge(e.getSource(),e.getTarget())
+            Edge newEdge = new Edge(e.getSource(),e.getTarget());
         }
 
         this.edges = G.getEdges();
@@ -188,9 +188,9 @@ public class EdgeWeightedGraph {
     }// end addEdge method
 
     /**
-     * Creates a deep copy of this edge
+     * Creates a deep copy of this edge-weighted graph
      *
-     * @return clone of edge
+     * @return clone of edge-weighted graph
      */
     @Override
     public EdgeWeightedGraph clone(){
