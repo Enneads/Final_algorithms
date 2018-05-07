@@ -19,6 +19,15 @@ public class EdgeWeightedGraph {
     }
 
     /**
+     * Overloaded constructor initializes graph with empty lists of vertices and edges.
+     *
+     */
+    public EdgeWeightedGraph(){
+        this.edges = new LinkedList<Edge>();
+        this.vertices = new LinkedList<Vertex>();
+    }
+
+    /**
      * Overloaded constructor creates a deep copy of a weighted graph.
      *
      * @param G edge-weighted graph to be copied
@@ -194,15 +203,27 @@ public class EdgeWeightedGraph {
      */
     @Override
     public EdgeWeightedGraph clone(){
-        EdgeWeightedGraph newGraph = null;
+        EdgeWeightedGraph newGraph = new EdgeWeightedGraph();
         LinkedList<Edge> edgelist = this.getEdges();
 
         for (Edge e : edgelist){
-            newGraph.addEdge(e.getSource().getKey(),e.getTarget().getKey());
+            String s1 = e.getSource().getKey();
+            String s2 = e.getTarget().getKey();
+            newGraph.addEdge(s1, s2);
         }
-
         return newGraph;
     }
+
+//    /**
+//     * Creates a deep copy of this edge-weighted graph
+//     *
+//     * @return clone of edge-weighted graph
+//     */
+//    @Override
+//    public EdgeWeightedGraph clone(){
+//        return new EdgeWeightedGraph(this.getEdges(),this.getVertices());
+//    }
+
 
     @Override
     public String toString() {

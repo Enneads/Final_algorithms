@@ -185,14 +185,22 @@ public class TextGraph {
         Map<Vertex, LinkedList<Edge>> startGraph = new HashMap<Vertex, LinkedList<Edge>>();
         Map<Vertex, LinkedList<Edge>> updatedGraph = new HashMap<Vertex, LinkedList<Edge>>();
 
+        EdgeWeightedGraph newGraph = graph.clone();
+
+        // re-organize graph as a hashmap startGraph of vertices
+        // to linked lists of edges
         for (Vertex v : graph.getVertices()) {
             startGraph.put(v, graph.adjacentTo(v));
-            updatedGraph.put(v,graph.adjacentTo(v));
         }
 
-        // Create an initial network (startGraph) where important
+        // create a copy of the startGraph hashmap
+        for (Vertex v : newGraph.getVertices()) {
+            updatedGraph.put(v, newGraph.adjacentTo(v));
+        }
+
+        // Create an initial network (updatedGraph) where important
         // vertices (those in active list) are assigned weight 1.
-        for (Vertex v : startGraph.keySet()) { // loops over every vertex in startGraph
+        for (Vertex v : updatedGraph.keySet()) { // loops over every vertex in updatedGraph
             Iterator iter = active.iterator();
             while (iter.hasNext()) { // loops over every word in active
                 String word = (String) iter.next();
@@ -206,11 +214,11 @@ public class TextGraph {
         for (int i=0; i<iterTime; i++){
 
             // single iteration
-            for (Vertex v : startGraph.keySet()) { // loops over every vertex in startGraph
+            for (Vertex v : updatedGraph.keySet()) { // loops over every vertex in updatedGraph
                 int degree = 0;
                 double sum = 0;
 
-                LinkedList<Edge> edgelist = startGraph.get(v); // list of edges adjacent to v
+                LinkedList<Edge> edgelist = updatedGraph.get(v); // list of edges adjacent to v
 
                 double maxEdgeweight = 0;
                 Iterator iter2 = edgelist.iterator();
@@ -234,17 +242,39 @@ public class TextGraph {
                     degree++;
                 }
 
-                // find corresponding vertex in updatedGraph
-                // and increase its weight as a function of neighbors of startGraph
-                for(Vertex m : startGraph.keySet()){
-                    if(m.equals(v) && v.getWeight() != 1D){
-                        m.setWeight(sum/degree);
+                    if(v.getWeight() != 1D) {
+                        v.setWeight(sum / degree);
                     }
-                }
             }
+
+            // update graph to the values in updatedGraph
+            // at the end of each iteration.
+            graph = newGraph;
         }
     }
 
+    public LinkedList<Vertex> getSortedVertices(LinkedList<Vertex> vertices){
+        int loop = vertices.size();
+        for(int i = 0; i < loop - 1; i++){
+            boolean swap = false;
+            for(int j = 0; j < loop - 1; j++){
+                if (vertices.get(j).getWeight() < vertices.get(j+1).getWeight()){
+                    swapVer(vertices, j, j+1);
+                    swap = true;
+                }
+            }
+            if(!swap){
+                break;
+            }
+        }
+        return vertices;
+    }
+
+    private void swapVer(LinkedList<Vertex> list, int posiOne, int posiTwo){
+        Vertex tempVer = list.get(posiOne);
+        list.set(posiOne,list.get(posiTwo));
+        list.set(posiTwo,tempVer);
+    }
 
 
     public static void main(String[] args) throws IOException {
@@ -253,8 +283,8 @@ public class TextGraph {
         abcGraph.makeGraph(file_name);
         LinkedList<String> active = new LinkedList<String>();
         active.add("A");
-        abcGraph.SpreadingActivation(1, active);
-        System.out.print(abcGraph.getGraph().getVertices());
+        abcGraph.SpreadingActivation(2, active);
+        System.out.print(abcGraph.getSortedVertices(abcGraph.getGraph().getVertices()));
         System.out.print(abcGraph.getGraph().getEdges());
     }
 }// end TextGraph class
