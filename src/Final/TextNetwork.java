@@ -50,10 +50,11 @@ public class TextNetwork {
 //        }
 //    }
 
-
     public WeightedGraph getGraph() {
         return graph;
-    }public void setGraph(WeightedGraph graph) {
+    }
+
+    public void setGraph(WeightedGraph graph) {
         this.graph = graph;
     }public void makeGraph(String fileName) throws IOException {
 //        Map<Vertex, LinkedList<Edge>> mapp = new HashMap<>();

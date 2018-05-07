@@ -109,11 +109,14 @@ public class EdgeWeightedGraph {
                 Vertex v1 = new Vertex(s1);
                 Vertex v2 = new Vertex(s2);
                 Edge e = new Edge(v1,v2);
+                System.out.println(e.getWeight());
 
                 edges.add(e);
                 vertices.add(v1);
+                System.out.println(e.getWeight());
                 vertices.add(v2);
-            }
+                return;
+            }//end if statement
 
         // 2. if s1 is in the graph, but s2 is not
             if(inGraph(s1) && !inGraph(s2)){
@@ -124,7 +127,8 @@ public class EdgeWeightedGraph {
 
                 edges.add(newEdge);
                 vertices.add(v2);
-            }
+                return;
+            }//end if statement
 
         // 3. if s2 is in the graph, but s1 is not
             if(!inGraph(s1) && inGraph(s2)){
@@ -135,7 +139,8 @@ public class EdgeWeightedGraph {
 
                 edges.add(newEdge);
                 vertices.add(v1);
-            }
+                return;
+            }//end if statement
 
         // 4. if both of the strings are in the graph...
             if(inGraph(s1) && inGraph(s2)){
@@ -147,18 +152,58 @@ public class EdgeWeightedGraph {
                     Edge newEdge = new Edge(v1, v2); // new edge between v1 (new node) and v2
 
                     edges.add(newEdge);
-                }
+                }//end if statement
 
             //b. ...and connected
-                else{
+                else if (areAdjacent(s1,s2)) {
                     Edge e = getEdge(s1,s2);
                     double edgeWeight = e.getWeight();
                     e.setWeight(edgeWeight+1);
-                }
-            }
-    }// end addGraph method
+                }//end else statement
+            }//end if statement
+    }// end addEdge method
 
-    public String toString(){
 
+    @Override
+    public String toString() {
+        String str = "";
+
+        for(Vertex v:vertices){
+            str = str.concat(v.toString() + "\n");
+        }
+
+        for(Edge e:edges){
+            str = str.concat(e.toString() + "\n");
+        }
+
+        return str;
     }
+
+    //@Override
+//    public String toString() {
+//
+//        Map<Vertex, LinkedList<Edge>> graphMap = new HashMap<Vertex, LinkedList<Edge>>();
+//
+//        for (Vertex v : vertices) {
+//            graphMap.put(v, adjacentTo(v));
+//        }
+//
+//        // toString to an adjacency list
+//        String str = "";
+//        Set<Vertex> keys = graphMap.keySet();
+//        for (Vertex v : keys) {
+//            str = str.concat("\n" + v.getKey() + "(" + v.getWeight() + ")"); // separate lines for every new node
+//            LinkedList<Edge> edgelist = graphMap.get(v);
+//            Iterator iter = edgelist.iterator();
+//            while (iter.hasNext()) {
+//                Edge e = (Edge) iter.next();
+//                Vertex end = e.getTarget(v);
+//                str = str.concat(" -" + e.getWeight() + "-> " + end.getKey() + "(" + end.getWeight() + ")");
+//            }
+//        }
+//        return str;
+//    }
+
+
+
 }// end EdgeWeightedGraph class
