@@ -157,7 +157,7 @@ public class TextGraph {
                     }
 
                     double nodeweight = u.getWeight();
-                    sum += nodeweight*Math.exp(-1/edgeweight);
+                    sum += nodeweight*Math.exp(-1/(20*edgeweight));
                     degree++;
 
                     if(v.getWeight() != 1D){
@@ -176,8 +176,8 @@ public class TextGraph {
         abcGraph.makeGraph(file_name);
 //        System.out.print(newNet);
         LinkedList<String> active = new LinkedList<String>();
-        active.add("A");
-        abcGraph.SpreadingActivation(12, active);
+        active.add("NIGGER");
+        abcGraph.SpreadingActivation(2, active);
         System.out.print(abcGraph.getGraph().getVertices());
     }
 }// end TextGraph class
