@@ -180,27 +180,82 @@ public class TextGraph {
 //        }
 //    }
 
-    public void SpreadingActivation(int iterTime, LinkedList<String> active) {
+//    public void SpreadingActivation(int iterTime, LinkedList<String> active) {
+//
+//        Map<Vertex, LinkedList<Edge>> startGraph = new HashMap<Vertex, LinkedList<Edge>>();
+//        Map<Vertex, LinkedList<Edge>> updatedGraph = new HashMap<Vertex, LinkedList<Edge>>();
+//
+//        EdgeWeightedGraph newGraph = graph.clone();
+//
+//        // re-organize graph as a hashmap startGraph of vertices
+//        // to linked lists of edges
+//        for (Vertex v : graph.getVertices()) {
+//            startGraph.put(v, graph.adjacentTo(v));
+//        }
+//
+//        // create a copy of the startGraph hashmap
+//        for (Vertex v : newGraph.getVertices()) {
+//            updatedGraph.put(v, newGraph.adjacentTo(v));
+//        }
+//
+//        // Create an initial network (updatedGraph) where important
+//        // vertices (those in active list) are assigned weight 1.
+//        for (Vertex v : updatedGraph.keySet()) { // loops over every vertex in updatedGraph
+//            Iterator iter = active.iterator();
+//            while (iter.hasNext()) { // loops over every word in active
+//                String word = (String) iter.next();
+//                if (v.getKey().equals(word)) { // checks if vertex key is in active
+//                    v.setWeight(1D);
+//                }
+//            }
+//        }
+//
+//        // loops through iterTime number of iterations
+//        for (int i=0; i<iterTime; i++){
+//
+//            // single iteration
+//            for (Vertex v : updatedGraph.keySet()) { // loops over every vertex in updatedGraph
+//                int degree = 0;
+//                double sum = 0;
+//
+//                LinkedList<Edge> edgelist = updatedGraph.get(v); // list of edges adjacent to v
+//
+//                double maxEdgeweight = 0;
+//                Iterator iter2 = edgelist.iterator();
+//                while (iter2.hasNext()){
+//                    Edge e = (Edge)iter2.next();
+//                    double edgeweight = e.getWeight();
+//
+//                    //calculate the maximum edge-weight for a vertex (use later)
+//                    if (edgeweight > maxEdgeweight){
+//                        maxEdgeweight = edgeweight;
+//                    }
+//                    Vertex u = null;
+//                    for (Vertex v2:e.getEdge()){
+//                        if (!v2.equals(v)){
+//                            u = v2;
+//                        }
+//                    }
+//
+//                    double nodeweight = u.getWeight();
+//                    sum += nodeweight*Math.exp(-1/(20*maxEdgeweight*edgeweight));
+//                    degree++;
+//                }
+//
+//                    if(v.getWeight() != 1D) {
+//                        v.setWeight(sum / degree);
+//                    }
+//            }
+//
+//            // update graph to the values in updatedGraph
+//            // at the end of each iteration.
+//            graph = newGraph;
+//        }
+//    }
 
-        Map<Vertex, LinkedList<Edge>> startGraph = new HashMap<Vertex, LinkedList<Edge>>();
-        Map<Vertex, LinkedList<Edge>> updatedGraph = new HashMap<Vertex, LinkedList<Edge>>();
-
-        EdgeWeightedGraph newGraph = graph.clone();
-
-        // re-organize graph as a hashmap startGraph of vertices
-        // to linked lists of edges
-        for (Vertex v : graph.getVertices()) {
-            startGraph.put(v, graph.adjacentTo(v));
-        }
-
-        // create a copy of the startGraph hashmap
-        for (Vertex v : newGraph.getVertices()) {
-            updatedGraph.put(v, newGraph.adjacentTo(v));
-        }
-
-        // Create an initial network (updatedGraph) where important
-        // vertices (those in active list) are assigned weight 1.
-        for (Vertex v : updatedGraph.keySet()) { // loops over every vertex in updatedGraph
+    public void activate(LinkedList<String> active){
+        // Set activated vertices' weight (those in active list) to 1.
+        for (Vertex v : graph.getVertices()) { // loops over every vertex in graph
             Iterator iter = active.iterator();
             while (iter.hasNext()) { // loops over every word in active
                 String word = (String) iter.next();
@@ -209,49 +264,36 @@ public class TextGraph {
                 }
             }
         }
+    }
 
-        // loops through iterTime number of iterations
-        for (int i=0; i<iterTime; i++){
 
-            // single iteration
-            for (Vertex v : updatedGraph.keySet()) { // loops over every vertex in updatedGraph
+    public void SpreadingActivation(int iterTime) {
+        EdgeWeightedGraph updatedGraph = graph.clone();
+
+        for (int i=0; i<iterTime; i++) {
+            // spread
+            for (Vertex v : graph.getVertices()) {
                 int degree = 0;
                 double sum = 0;
 
-                LinkedList<Edge> edgelist = updatedGraph.get(v); // list of edges adjacent to v
-
-                double maxEdgeweight = 0;
-                Iterator iter2 = edgelist.iterator();
-                while (iter2.hasNext()){
-                    Edge e = (Edge)iter2.next();
-                    double edgeweight = e.getWeight();
-
-                    //calculate the maximum edge-weight for a vertex (use later)
-                    if (edgeweight > maxEdgeweight){
-                        maxEdgeweight = edgeweight;
-                    }
-                    Vertex u = null;
-                    for (Vertex v2:e.getEdge()){
-                        if (!v2.equals(v)){
-                            u = v2;
-                        }
-                    }
-
-                    double nodeweight = u.getWeight();
-                    sum += nodeweight*Math.exp(-1/(20*maxEdgeweight*edgeweight));
+                LinkedList<Edge> adjEdges = graph.adjacentTo(v);
+                for (Edge e : adjEdges) {
+                    Vertex u = e.getTarget(v);
+                    sum += u.getWeight() * Math.exp(-1 / (50*e.getWeight()));
                     degree++;
                 }
 
-                    if(v.getWeight() != 1D) {
-                        v.setWeight(sum / degree);
-                    }
+                if (v.getWeight() != 1D) {
+                    double currentWeight = v.getWeight();
+                    double neighborWeight = sum / degree;
+                    updatedGraph.getVertex(v.getKey()).setWeight((currentWeight + neighborWeight) / 2);
+                }
             }
-
-            // update graph to the values in updatedGraph
-            // at the end of each iteration.
-            graph = newGraph;
+            // update graph after every iteration
+            graph = updatedGraph;
         }
-    }
+    }// end spreading activation method
+
 
     public LinkedList<Vertex> getSortedVertices(LinkedList<Vertex> vertices){
         int loop = vertices.size();
@@ -282,9 +324,11 @@ public class TextGraph {
         TextGraph abcGraph = new TextGraph();
         abcGraph.makeGraph(file_name);
         LinkedList<String> active = new LinkedList<String>();
-        active.add("A");
-        abcGraph.SpreadingActivation(1, active);
+        active.add("MIKEYBOO");
+        abcGraph.activate(active);
+
+        abcGraph.SpreadingActivation(5);
         System.out.print(abcGraph.getSortedVertices(abcGraph.getGraph().getVertices()));
-        System.out.print(abcGraph.getGraph().getEdges());
+        //System.out.print(abcGraph.getGraph().getEdges());
     }
 }// end TextGraph class

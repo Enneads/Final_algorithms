@@ -15,13 +15,18 @@ public class TestEWG {
         Vertex v4 = new Vertex("v4");
 
         ewg.addEdge("v1", "v2");
-//        ewg.addEdge("v1", "v3");
-//        ewg.addEdge("v4", "v2");
-//        ewg.addEdge("v1", "v2");
+        ewg.addEdge("v1", "v3");
+        ewg.addEdge("v4", "v2");
+        ewg.addEdge("v1", "v2");
+        ewg.addEdge("v1", "v2");
+        ewg.addEdge("v1", "v2");
 
-        System.out.println(ewg.getEdges());
-        System.out.println(ewg.getVertices());
+        EdgeWeightedGraph ewgCopy = ewg.clone();
+
+//        System.out.println(ewg.getEdges());
+//        System.out.println(ewg.getVertices());
         System.out.println(ewg.toString());
+        System.out.println(ewgCopy.toString());
 
     }
 

@@ -205,12 +205,20 @@ public class EdgeWeightedGraph {
     public EdgeWeightedGraph clone(){
         EdgeWeightedGraph newGraph = new EdgeWeightedGraph();
         LinkedList<Edge> edgelist = this.getEdges();
+        LinkedList<Vertex> vertexlist = this.getVertices();
 
         for (Edge e : edgelist){
-            String s1 = e.getSource().getKey();
-            String s2 = e.getTarget().getKey();
-            newGraph.addEdge(s1, s2);
+            for(int i = 0; i < e.getWeight(); i++) {
+                String s1 = e.getSource().getKey();
+                String s2 = e.getTarget().getKey();
+                newGraph.addEdge(s1, s2);
+            }
         }
+
+        for (Vertex v : vertexlist){
+            newGraph.getVertex(v.getKey()).setWeight(v.getWeight());
+        }
+
         return newGraph;
     }
 
@@ -225,45 +233,45 @@ public class EdgeWeightedGraph {
 //    }
 
 
-    @Override
-    public String toString() {
-        String str = "";
-
-        for(Vertex v:vertices){
-            str = str.concat(v.toString() + "\n");
-        }
-
-        for(Edge e:edges){
-            str = str.concat(e.toString() + "\n");
-        }
-
-        return str;
-    }
-
     //@Override
 //    public String toString() {
-//
-//        Map<Vertex, LinkedList<Edge>> graphMap = new HashMap<Vertex, LinkedList<Edge>>();
-//
-//        for (Vertex v : vertices) {
-//            graphMap.put(v, adjacentTo(v));
-//        }
-//
-//        // toString to an adjacency list
 //        String str = "";
-//        Set<Vertex> keys = graphMap.keySet();
-//        for (Vertex v : keys) {
-//            str = str.concat("\n" + v.getKey() + "(" + v.getWeight() + ")"); // separate lines for every new node
-//            LinkedList<Edge> edgelist = graphMap.get(v);
-//            Iterator iter = edgelist.iterator();
-//            while (iter.hasNext()) {
-//                Edge e = (Edge) iter.next();
-//                Vertex end = e.getTarget(v);
-//                str = str.concat(" -" + e.getWeight() + "-> " + end.getKey() + "(" + end.getWeight() + ")");
-//            }
+//
+//        for(Vertex v:vertices){
+//            str = str.concat(v.toString() + "\n");
 //        }
+//
+//        for(Edge e:edges){
+//            str = str.concat(e.toString() + "\n");
+//        }
+//
 //        return str;
 //    }
+
+    @Override
+    public String toString() {
+
+        Map<Vertex, LinkedList<Edge>> graphMap = new HashMap<Vertex, LinkedList<Edge>>();
+
+        for (Vertex v : vertices) {
+            graphMap.put(v, adjacentTo(v));
+        }
+
+        // toString to an adjacency list
+        String str = "";
+        Set<Vertex> keys = graphMap.keySet();
+        for (Vertex v : keys) {
+            str = str.concat("\n" + v.getKey() + "(" + v.getWeight() + ")"); // separate lines for every new node
+            LinkedList<Edge> edgelist = graphMap.get(v);
+            Iterator iter = edgelist.iterator();
+            while (iter.hasNext()) {
+                Edge e = (Edge) iter.next();
+                Vertex end = e.getTarget(v);
+                str = str.concat(" -" + e.getWeight() + "-> " + end.getKey() + "(" + end.getWeight() + ")");
+            }
+        }
+        return str;
+    }
 
 
 

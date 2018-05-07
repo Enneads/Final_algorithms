@@ -210,6 +210,6 @@ public class Edge {
 
     @Override
     public String toString() {
-        return source.getKey() + " to " + target.getKey() + " with weight" + this.weight +"\n";
+        return source.getKey() + " to " + target.getKey() + " with weight " + this.weight +"\n";
     }
 }
