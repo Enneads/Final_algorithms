@@ -102,6 +102,30 @@ public class Edge {
     }
 
     /**
+     * Returns whether vertex {@code v} is one of the ends of the edge.
+     *
+     * @param v the vertex to check
+     * @return true if {@code v} is an end, false if not
+     */
+    public boolean contains(Vertex v){
+        return(edge.contains(v));
+    }
+
+    /**
+     * Returns whether a vertex with name {@code s} is one of the ends of the edge.
+     *
+     * @param s name of target vertex
+     * @return true if vertex with name {@code s} is an end, false if not
+     */
+    public boolean contains(String s){
+        for(Vertex v:edge){
+            if(v.getKey().equals(s))
+                return true;
+        }
+        return false;
+    }
+
+    /**
      * Returns the {@code edge}.
      *
      * @return the {@code edge}
@@ -122,18 +146,18 @@ public class Edge {
     }
 
     /**
-     * Returns the {@code target} Vertex (one of the ends).
+     * Returns the {@code target} edge (one of the ends).
      *
-     * @return the {@code target} Vertex
+     * @return the {@code target} edge
      */
     public double getWeight() {
         return weight;
     }
 
     /**
-     * Sets the weight of vertex {@code v}.
+     * Sets the weight of edge {@code e}.
      *
-     * @param weight the weight of vertex {@code v}
+     * @param weight the weight of edge {@code e}
      */
     public void setWeight(double weight) {
         this.weight = weight;
