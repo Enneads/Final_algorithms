@@ -25,7 +25,6 @@ public class TextGraph {
     }
 
     private String[] cutString(String line){
-    // String[] cutLine = line.split("\\W+");
         return line.split("\\W+");
     }
 
@@ -39,8 +38,24 @@ public class TextGraph {
         return found;
     }
 
+//    private String[] removeTrivial(String[] arrie) throws IOException {
+//        ReadFile file = new ReadFile("common.txt");
+//        String[] common = file.OpenFile();
+//        String strin = "";
+//
+//        for (String str : common) {
+//            System.out.println(str);
+//        }
+//
+//        for (String s : arrie) {
+//            if (!contains(s, common)) {
+//                strin = strin.concat(s + " ");
+//            }
+//        }
+//        return cutString(strin);
+//    }
+
     private String[] makeDistinct(String[] arr) {
-//        StringArray newArr = new StringArray();
         String str = "";
         for (String s : arr) {
             s = s + " ";
@@ -48,15 +63,7 @@ public class TextGraph {
                 str = str.concat(s);
             }
         }
-
         return cutString(str);
-
-//        String[] newArr = null;
-//        for (int i = 0; i < arr.length; i++) {
-//            if (!contains(arr[i], newArr)) {
-//                newArr[newArr.length] = arr[i];
-//            }
-//        }
     }
 
     public void makeGraph(String fileName) throws IOException {
@@ -76,6 +83,7 @@ public class TextGraph {
             ArrayList<String> lineList = new ArrayList<String>();
 
             wordList = makeDistinct(wordList);
+//            wordList = removeTrivial(wordList);
 //            for (String w : wordList) {
 //                System.out.println(w);
 //            }
