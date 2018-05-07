@@ -178,6 +178,6 @@ public class TextGraph {
         LinkedList<String> active = new LinkedList<String>();
         active.add("A");
         abcGraph.SpreadingActivation(12, active);
-        System.out.print(abcGraph.getGraph().toString());
+        System.out.print(abcGraph.getGraph().getVertices());
     }
 }// end TextGraph class
