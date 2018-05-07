@@ -90,8 +90,6 @@ public class TextGraph {
 
 
 
-
-
             // parse through every word in line]
 //            for (String i : wordList) {
 //                if(!lineList.contains(i)) {
