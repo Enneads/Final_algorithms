@@ -39,7 +39,14 @@ public class TextGraph {
         return found;
     }
 
-
+    /**
+    * Removes trivial words from a line of text.
+    * (Trivial words are those contained in the list of
+    * the 1000 most common English words.)
+    *
+    * @param line a String, a line of text to modify
+    * @return an array of words in the line sans common words
+    */
     private String[] removeTrivial(String line) throws IOException {
         ReadFile file = new ReadFile("/Users/lstaplet/Desktop/common.txt");
         String[] common = file.OpenFile();
