@@ -222,32 +222,6 @@ public class EdgeWeightedGraph {
         return newGraph;
     }
 
-//    /**
-//     * Creates a deep copy of this edge-weighted graph
-//     *
-//     * @return clone of edge-weighted graph
-//     */
-//    @Override
-//    public EdgeWeightedGraph clone(){
-//        return new EdgeWeightedGraph(this.getEdges(),this.getVertices());
-//    }
-
-
-    //@Override
-//    public String toString() {
-//        String str = "";
-//
-//        for(Vertex v:vertices){
-//            str = str.concat(v.toString() + "\n");
-//        }
-//
-//        for(Edge e:edges){
-//            str = str.concat(e.toString() + "\n");
-//        }
-//
-//        return str;
-//    }
-
     @Override
     public String toString() {
 
