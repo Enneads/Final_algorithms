@@ -186,7 +186,7 @@ public class TextGraph {
 
 
     public static void main(String[] args) throws IOException {
-        String file_name = "chimpmania.txt";
+        String file_name = "Final/text_files/chimpmania.txt";
         ReadFile file = new ReadFile(file_name);
         String[] text = file.OpenFile();
 
@@ -196,7 +196,7 @@ public class TextGraph {
         active.add("NIGGER");
         abcGraph.activate(active);
 
-        abcGraph.SpreadingActivation(1);
+        abcGraph.SpreadingActivation(5);
         LinkedList<Vertex> vertexList = abcGraph.getSortedVertices(abcGraph.getGraph().getVertices());
         System.out.print(vertexList);
 
