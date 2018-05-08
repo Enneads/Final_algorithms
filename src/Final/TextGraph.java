@@ -36,22 +36,38 @@ public class TextGraph {
         return found;
     }
 
-//    private String[] removeTrivial(String[] arrie) throws IOException {
-//        ReadFile file = new ReadFile("common.txt");
-//        String[] common = file.OpenFile();
-//        String strin = "";
-//
-//        for (String str : common) {
-//            System.out.println(str);
-//        }
-//
-//        for (String s : arrie) {
-//            if (!contains(s, common)) {
-//                strin = strin.concat(s + " ");
-//            }
-//        }
-//        return cutString(strin);
-//    }
+
+    private String[] removeTrivial(String line) throws IOException {
+        ReadFile file = new ReadFile("/Users/lstaplet/Desktop/common.txt");
+        String[] common = file.OpenFile();
+        String str = "";
+
+        // common to uppercase
+        for (int i=0; i < common.length; i++) {
+            common[i] = common[i].toUpperCase();
+            //System.out.println(common[i]);
+        }
+
+        // cast common as a list
+        List<String> commonList = Arrays.asList(common);
+        String[] arry = cutString(line);
+
+        // arry to uppercase
+        for (int i=0; i < arry.length; i++) {
+            String word = arry[i].toUpperCase();
+
+            boolean inCommon = false;
+            for (String check : commonList) {
+                if (word.equals(check)) {
+                    inCommon = true;
+                }
+            }
+            if (!inCommon){
+                str = str.concat(word + " ");
+            }
+        }
+        return cutString(str);
+    }// end removeTrivial method
 
     private String[] makeDistinct(String[] arr) {
         String str = "";
@@ -71,9 +87,8 @@ public class TextGraph {
         // parses through every line in text
         for (String line : text) {
             line = line.toUpperCase(); // make line uppercase
+            String[] wordList = removeTrivial(line); // an array of words in a line (w/o common)
 
-            // an array of words in a line
-            String[] wordList = cutString(line);
 //            for (String w : wordList) {
 //            }
 ////                System.out.println(w);
@@ -116,7 +131,7 @@ public class TextGraph {
 //                        }
 //                    }
                 }
-            }
+            }// end makeGraph method
 
 //    public void SpreadingActivation(int iterTime, LinkedList<String> active) {
 //
@@ -264,7 +279,7 @@ public class TextGraph {
                 }
             }
         }
-    }
+    }// end activate method
 
 
     public void SpreadingActivation(int iterTime) {
@@ -310,7 +325,7 @@ public class TextGraph {
             }
         }
         return vertices;
-    }
+    }// end getSortedVertices method
 
     private void swapVer(LinkedList<Vertex> list, int posiOne, int posiTwo){
         Vertex tempVer = list.get(posiOne);
@@ -320,15 +335,22 @@ public class TextGraph {
 
 
     public static void main(String[] args) throws IOException {
-        String file_name = "/Users/lstaplet/Desktop/gettysburg.txt";
+        String file_name = "/Users/lstaplet/Desktop/chimpmania.txt";
+        ReadFile file = new ReadFile(file_name);
+        String[] text = file.OpenFile();
+
         TextGraph abcGraph = new TextGraph();
         abcGraph.makeGraph(file_name);
+        String[] test = abcGraph.removeTrivial(text[1]);
+        for(String s : test){
+            System.out.println(s);
+        }
         LinkedList<String> active = new LinkedList<String>();
-        active.add("MIKEYBOO");
+        active.add("NIGGER");
         abcGraph.activate(active);
 
         abcGraph.SpreadingActivation(5);
         System.out.print(abcGraph.getSortedVertices(abcGraph.getGraph().getVertices()));
         //System.out.print(abcGraph.getGraph().getEdges());
-    }
+    }// end main
 }// end TextGraph class
