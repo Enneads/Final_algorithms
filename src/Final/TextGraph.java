@@ -2,6 +2,9 @@ package Final;
 
 import java.io.IOException;
 import java.util.*;
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.PrintWriter;
 
 public class TextGraph {
     EdgeWeightedGraph graph;
@@ -294,7 +297,7 @@ public class TextGraph {
                 LinkedList<Edge> adjEdges = graph.adjacentTo(v);
                 for (Edge e : adjEdges) {
                     Vertex u = e.getTarget(v);
-                    sum += u.getWeight() * Math.exp(-1 / (50*e.getWeight()));
+                    sum += u.getWeight() * Math.exp(-1 / (30*e.getWeight()));
                     degree++;
                 }
 
@@ -341,16 +344,32 @@ public class TextGraph {
 
         TextGraph abcGraph = new TextGraph();
         abcGraph.makeGraph(file_name);
-        String[] test = abcGraph.removeTrivial(text[1]);
-        for(String s : test){
-            System.out.println(s);
-        }
         LinkedList<String> active = new LinkedList<String>();
         active.add("NIGGER");
         abcGraph.activate(active);
 
-        abcGraph.SpreadingActivation(5);
-        System.out.print(abcGraph.getSortedVertices(abcGraph.getGraph().getVertices()));
-        //System.out.print(abcGraph.getGraph().getEdges());
+        abcGraph.SpreadingActivation(1);
+        LinkedList<Vertex> vertexList = abcGraph.getSortedVertices(abcGraph.getGraph().getVertices());
+        System.out.print(vertexList);
+
+        PrintWriter pwNodes = new PrintWriter(new File("/Users/lstaplet/Desktop/chimpmaniaNodes.csv"));
+        StringBuilder sbNodes = new StringBuilder();
+        sbNodes.append("Id,Label,Weight\n");
+        for (Vertex v : vertexList){
+            sbNodes.append(v.toString());
+        }
+        pwNodes.write(sbNodes.toString());
+        pwNodes.close();
+
+        LinkedList<Edge> edgeList = abcGraph.getGraph().getEdges();
+
+        PrintWriter pwEdges = new PrintWriter(new File("/Users/lstaplet/Desktop/chimpmaniaEdges.csv"));
+        StringBuilder sbEdges = new StringBuilder();
+        sbEdges.append("Source,Target,Weight\n");
+        for (Edge e : edgeList){
+            sbEdges.append(e.toString());
+        }
+        pwEdges.write(sbEdges.toString());
+        pwEdges.close();
     }// end main
 }// end TextGraph class

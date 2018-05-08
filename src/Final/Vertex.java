@@ -115,6 +115,6 @@ public class Vertex {
      * @return the name of the vertex and the weight
      */
     public String toString() {
-        return key + " with node-weight " + weight + "\n";
+        return key + "," + key + "," + weight + "\n";
     }
 }
